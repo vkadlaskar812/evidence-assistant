@@ -1,0 +1,245 @@
+[
+ {
+  "id": "JIRA-101",
+  "source_type": "jira",
+  "project": "Payments API Migration",
+  "date": "2026-02-10",
+  "title": "Migrate refund endpoint to v2",
+  "url": "https://example.com/jira/JIRA-101",
+  "excerpt": "Done. Assignee: Priya. Sprint 14. Refund endpoint moved to v2 schema."
+ },
+ {
+  "id": "JIRA-118",
+  "source_type": "jira",
+  "project": "Payments API Migration",
+  "date": "2026-03-02",
+  "title": "Fix timeout in settlement job",
+  "url": "https://example.com/jira/JIRA-118",
+  "excerpt": "Done. Sprint 16. Settlement job timeout resolved; 14 tickets closed in this epic by end of sprint 16."
+ },
+ {
+  "id": "PR-412",
+  "source_type": "github",
+  "project": "Payments API Migration",
+  "date": "2026-03-05",
+  "title": "Add contract tests for v2 endpoints",
+  "url": "https://example.com/github/PR-412",
+  "excerpt": "Merged. Added 62 contract tests covering refund, capture and settlement endpoints."
+ },
+ {
+  "id": "PR-431",
+  "source_type": "github",
+  "project": "Payments API Migration",
+  "date": "2026-04-12",
+  "title": "Retry logic for settlement calls",
+  "url": "https://example.com/github/PR-431",
+  "excerpt": "Merged. Adds exponential backoff to settlement calls."
+ },
+ {
+  "id": "DOC-7",
+  "source_type": "sharepoint",
+  "project": "Payments API Migration",
+  "date": "2026-03-20",
+  "title": "v2 Migration Test Plan",
+  "url": "https://example.com/sharepoint/DOC-7",
+  "excerpt": "Test plan authored by Priya. Covers 62 contract tests and 3 regression suites."
+ },
+ {
+  "id": "JIRA-125",
+  "source_type": "jira",
+  "project": "Payments API Migration",
+  "date": "2026-03-28",
+  "title": "Reconciliation report for finance",
+  "url": "https://example.com/jira/JIRA-125",
+  "excerpt": "Done. Sprint 17. Report cut manual reconciliation for the finance team from 6 hours to 1 hour per week."
+ },
+ {
+  "id": "PR-440",
+  "source_type": "github",
+  "project": "Payments API Migration",
+  "date": "2026-04-02",
+  "title": "Add idempotency keys to refund API",
+  "url": "https://example.com/github/PR-440",
+  "excerpt": "Merged. Reviewed by two engineers. Prevents duplicate refunds."
+ },
+ {
+  "id": "DOC-9",
+  "source_type": "sharepoint",
+  "project": "Payments API Migration",
+  "date": "2026-04-20",
+  "title": "v2 migration retro",
+  "url": "https://example.com/sharepoint/DOC-9",
+  "excerpt": "Team retro notes. The team delivered the migration in 3 sprints. Priya presented the findings."
+ },
+ {
+  "id": "JIRA-130",
+  "source_type": "jira",
+  "project": "Payments API Migration",
+  "date": "2026-04-22",
+  "title": "Investigate intermittent 502 on capture",
+  "url": "https://example.com/jira/JIRA-130",
+  "excerpt": "Open. Investigation ongoing; root cause not identified."
+ },
+ {
+  "id": "DOC-33",
+  "source_type": "sharepoint",
+  "project": "Payments API Migration",
+  "date": "2026-03-25",
+  "title": "Sprint 16 demo notes",
+  "url": "https://example.com/sharepoint/DOC-33",
+  "excerpt": "Demo notes mention roughly 60 contract tests and one open defect."
+ },
+ {
+  "id": "MAIL-3",
+  "source_type": "email",
+  "project": "Payments API Migration",
+  "date": "2026-04-25",
+  "title": "Client feedback on cutover",
+  "url": "https://example.com/email/MAIL-3",
+  "excerpt": "Client lead wrote that the cutover completed with no downtime and thanked the team."
+ },
+ {
+  "id": "JIRA-203",
+  "source_type": "jira",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-05-08",
+  "title": "Add smoke test stage to pipeline",
+  "url": "https://example.com/jira/JIRA-203",
+  "excerpt": "Done. Sprint 19. Smoke stage added before production deploy."
+ },
+ {
+  "id": "PR-455",
+  "source_type": "github",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-05-15",
+  "title": "Pipeline rollback script",
+  "url": "https://example.com/github/PR-455",
+  "excerpt": "Merged. One-command rollback script for failed deployments."
+ },
+ {
+  "id": "DOC-12",
+  "source_type": "sharepoint",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-05-22",
+  "title": "Runbook: failed deployment",
+  "url": "https://example.com/sharepoint/DOC-12",
+  "excerpt": "Runbook written by Priya for on-call engineers."
+ },
+ {
+  "id": "JIRA-210",
+  "source_type": "jira",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-06-03",
+  "title": "Parallelise integration tests",
+  "url": "https://example.com/jira/JIRA-210",
+  "excerpt": "Done. Sprint 20. Pipeline duration dropped from 48 minutes to 31 minutes."
+ },
+ {
+  "id": "PR-468",
+  "source_type": "github",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-06-10",
+  "title": "Quarantine flaky tests",
+  "url": "https://example.com/github/PR-468",
+  "excerpt": "Merged. Quarantined 9 flaky tests to reduce failure noise."
+ },
+ {
+  "id": "DOC-14",
+  "source_type": "sharepoint",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-06-18",
+  "title": "Pipeline metrics dashboard",
+  "url": "https://example.com/sharepoint/DOC-14",
+  "excerpt": "Dashboard created by Rahul and shared with the team."
+ },
+ {
+  "id": "JIRA-215",
+  "source_type": "jira",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-06-25",
+  "title": "Onboard two new engineers to the pipeline",
+  "url": "https://example.com/jira/JIRA-215",
+  "excerpt": "Done. Priya mentored 2 engineers; both shipped to production in their first month."
+ },
+ {
+  "id": "JIRA-301",
+  "source_type": "jira",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-08",
+  "title": "Build churn dashboard",
+  "url": "https://example.com/jira/JIRA-301",
+  "excerpt": "Done. Sprint 21. Dashboard used by 12 account managers every week."
+ },
+ {
+  "id": "PR-480",
+  "source_type": "github",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-14",
+  "title": "Add cohort query",
+  "url": "https://example.com/github/PR-480",
+  "excerpt": "Merged. Query runtime cut from 90 seconds to 12 seconds."
+ },
+ {
+  "id": "DOC-20",
+  "source_type": "sharepoint",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-20",
+  "title": "Dashboard user guide",
+  "url": "https://example.com/sharepoint/DOC-20",
+  "excerpt": "User guide written by Priya. 8 pages."
+ },
+ {
+  "id": "JIRA-305",
+  "source_type": "jira",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-28",
+  "title": "Fix wrong totals in region filter",
+  "url": "https://example.com/jira/JIRA-305",
+  "excerpt": "Done. Defect found by QA and fixed within 1 day."
+ },
+ {
+  "id": "PPT-2",
+  "source_type": "sharepoint",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-08-05",
+  "title": "Quarterly review deck",
+  "url": "https://example.com/sharepoint/PPT-2",
+  "excerpt": "Priya presented dashboard results to leadership, including 3 slides on churn trends."
+ },
+ {
+  "id": "TRN-1",
+  "source_type": "training",
+  "project": "Learning and Mentoring",
+  "date": "2026-04-30",
+  "title": "GCP Associate certification",
+  "url": "https://example.com/training/TRN-1",
+  "excerpt": "Certificate issued in April 2026."
+ },
+ {
+  "id": "TRN-2",
+  "source_type": "training",
+  "project": "Learning and Mentoring",
+  "date": "2026-03-18",
+  "title": "Mandatory compliance course",
+  "url": "https://example.com/training/TRN-2",
+  "excerpt": "Completed on 2026-03-18, before the 2026-03-31 deadline."
+ },
+ {
+  "id": "DOC-30",
+  "source_type": "sharepoint",
+  "project": "Learning and Mentoring",
+  "date": "2026-05-30",
+  "title": "Brown-bag session on API testing",
+  "url": "https://example.com/sharepoint/DOC-30",
+  "excerpt": "Priya hosted a 45-minute session with 22 attendees."
+ },
+ {
+  "id": "JIRA-999",
+  "source_type": "jira",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-08-10",
+  "title": "Fix README typo",
+  "url": "https://example.com/jira/JIRA-999",
+  "excerpt": "Done. Fixed a typo."
+ }
+]
