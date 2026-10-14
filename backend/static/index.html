@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Promotion case builder</title>
+<style>
+:root{--ink:#1d2433;--paper:#f6f7f9;--line:#d9dde5;--blue:#2f5bd6;--ok:#1f7a4d;--warn:#9a6a00;--bad:#b3261e}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:24px 16px}h1{font-size:1.5rem;margin:0 0 4px}p.sub{margin:0 0 20px;color:#586175}
+button{font:inherit;padding:8px 14px;border:1px solid var(--ink);background:#fff;border-radius:6px;cursor:pointer}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.claim{background:#fff;border:1px solid var(--line);border-left:6px solid var(--line);border-radius:6px;padding:14px;margin:14px 0}
+.claim.verified{border-left-color:var(--ok)}.claim.self_reported,.claim.unchecked{border-left-color:var(--warn)}.claim.unsupported{border-left-color:var(--bad)}
+.tag{font-weight:600}.verified .tag{color:var(--ok)}.self_reported .tag,.unchecked .tag{color:var(--warn)}.unsupported .tag{color:var(--bad)}
+.src{font-size:.9rem;background:var(--paper);padding:8px;border-radius:4px;margin-top:8px}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}input{flex:1;min-width:200px;padding:8px;border:1px solid var(--line);border-radius:6px;font:inherit}
+</style></head><body><main>
+<h1>Promotion case builder</h1><p class="sub">Evidence from your work tools, turned into form entries you can check.</p>
+<div class="row"><button class="primary" onclick="build()">Build my case</button><a href="/api/export.csv"><button>Export approved entries</button></a></div>
+<p id="msg" role="status"></p><div id="out"></div></main>
+<script>
+const $=s=>document.querySelector(s),j=(u,o)=>fetch(u,o).then(r=>r.json()),
+post=(u,b)=>j(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)});
+const label={unchecked:"Wording not fact-checked",verified:"Figures match sources",self_reported:"Self-reported (unverified)",unsupported:"Unsupported - held back"};
+async function build(){$("#msg").textContent="Building...";const r=await post("/api/extract",{});$("#msg").textContent=r.mode==="fallback"?"Test mode: no Gemini key set, so entries are not AI-written.":"";draw()}
+async function draw(){const s=await j("/api/state"),by=Object.fromEntries(s.artifacts.map(a=>[a.id,a]));
+$("#out").innerHTML=Object.values(s.claims).map(c=>`<div class="claim ${c.status}"><div class="tag">${label[c.status]}${c.note?" - "+c.note:""}</div>
+<strong>${c.project}</strong><p>${c.work_done}</p><p>Impact: ${c.impact||"<em>not stated</em>"}</p>
+<details><summary>Sources (${c.artifact_ids.length})</summary>${c.artifact_ids.map(i=>by[i]?`<div class="src"><a href="${by[i].url}">${i}</a> ${by[i].title}: ${by[i].excerpt}</div>`:"").join("")}</details>
+${c.question?`<div class="row"><input id="a-${c.id}" aria-label="Answer" placeholder="${c.question}"><button onclick="ans('${c.id}')">Save answer</button></div>`:""}
+<div class="row"><button onclick="dec('${c.id}','approve')">Approve${c.decision==="approve"?" (done)":""}</button><button onclick="dec('${c.id}','reject')">Reject${c.decision==="reject"?" (done)":""}</button></div></div>`).join("")}
+async function ans(id){await post(`/api/claims/${id}/answer`,{text:$("#a-"+id).value});draw()}
+async function dec(id,d){await post(`/api/claims/${id}/decision`,{decision:d});draw()}
+draw();
+</script></body></html>
