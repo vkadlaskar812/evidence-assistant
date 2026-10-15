@@ -1,31 +1,63 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Promotion case builder</title>
 <style>
-:root{--ink:#1d2433;--paper:#f6f7f9;--line:#d9dde5;--blue:#2f5bd6;--ok:#1f7a4d;--warn:#9a6a00;--bad:#b3261e}
-body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,sans-serif}
-main{max-width:760px;margin:0 auto;padding:24px 16px}h1{font-size:1.5rem;margin:0 0 4px}p.sub{margin:0 0 20px;color:#586175}
+:root{--ink:#1d2433;--paper:#f6f7f9;--line:#d9dde5;--blue:#2f5bd6;--ok:#1f7a4d;--warn:#9a6a00;--bad:#b3261e;--mute:#6b7385}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:24px 16px}h1{font-size:1.5rem;margin:0 0 4px}h2{font-size:1.05rem;margin:24px 0 8px}h3{margin:0 0 6px}h4{margin:14px 0 4px}
+p.sub{margin:0 0 16px;color:var(--mute)}
 button{font:inherit;padding:8px 14px;border:1px solid var(--ink);background:#fff;border-radius:6px;cursor:pointer}
-button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-.claim{background:#fff;border:1px solid var(--line);border-left:6px solid var(--line);border-radius:6px;padding:14px;margin:14px 0}
-.claim.verified{border-left-color:var(--ok)}.claim.self_reported,.claim.unchecked{border-left-color:var(--warn)}.claim.unsupported{border-left-color:var(--bad)}
-.tag{font-weight:600}.verified .tag{color:var(--ok)}.self_reported .tag,.unchecked .tag{color:var(--warn)}.unsupported .tag{color:var(--bad)}
-.src{font-size:.9rem;background:var(--paper);padding:8px;border-radius:4px;margin-top:8px}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}input{flex:1;min-width:200px;padding:8px;border:1px solid var(--line);border-radius:6px;font:inherit}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button:disabled{opacity:.6;cursor:wait}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+input{flex:1;min-width:180px;padding:8px;border:1px solid var(--line);border-radius:6px;font:inherit;background:#fff}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.tile{text-align:left;display:flex;flex-direction:column;justify-content:flex-start;;width:100%;min-height:96px;background:#fff;border:1px solid var(--line);border-left:6px solid var(--line);border-radius:6px;padding:10px}
+.tile b{display:block;font-size:.85rem}.tile small{color:var(--mute)}
+.tile span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:.9rem}
+.tile.verified{border-left-color:var(--ok)}.tile.self_reported,.tile.unchecked{border-left-color:var(--warn)}.tile.unsupported{border-left-color:var(--bad)}
+.chip{min-height:0;padding:6px 8px;border-left-color:var(--ok)}
+.chip.unused{border:1px dashed var(--mute);border-left:6px solid var(--line);color:var(--mute);background:transparent}
+.t-verified{color:var(--ok)}.t-self_reported,.t-unchecked{color:var(--warn)}.t-unsupported{color:var(--bad)}
+.src{font-size:.9rem;background:var(--paper);padding:8px;border-radius:4px;margin:6px 0}
+dialog{max-width:640px;width:92%;border:1px solid var(--line);border-radius:8px;padding:20px;color:var(--ink)}dialog::backdrop{background:#0006}
 </style></head><body><main>
 <h1>Promotion case builder</h1><p class="sub">Evidence from your work tools, turned into form entries you can check.</p>
-<div class="row"><button class="primary" onclick="build()">Build my case</button><a href="/api/export.csv"><button>Export approved entries</button></a></div>
-<p id="msg" role="status"></p><div id="out"></div></main>
+<div class="row"><button class="primary" id="b" onclick="build()">Build my case</button><a href="/api/export.csv"><button>Export approved entries</button></a></div>
+<div class="row"><input id="proj" aria-label="Project name" placeholder="Project name for an uploaded file"><input id="f" type="file" aria-label="File" accept=".docx,.pptx,.txt"><button onclick="up()">Add file as evidence</button></div>
+<p id="msg" role="status"></p><p id="sum"></p>
+<h2>Entries</h2><div class="grid" id="entries"></div>
+<h2>Sources (dashed = not used by any entry)</h2><div class="grid" id="sources"></div>
+</main><dialog id="dlg"><div id="dlgbody"></div></dialog>
 <script>
-const $=s=>document.querySelector(s),j=(u,o)=>fetch(u,o).then(r=>r.json()),
-post=(u,b)=>j(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)});
-const label={unchecked:"Wording not fact-checked",verified:"Figures match sources",self_reported:"Self-reported (unverified)",unsupported:"Unsupported - held back"};
-async function build(){$("#msg").textContent="Building...";const r=await post("/api/extract",{});$("#msg").textContent=r.mode==="fallback"?"Test mode: no Gemini key set, so entries are not AI-written.":"";draw()}
-async function draw(){const s=await j("/api/state"),by=Object.fromEntries(s.artifacts.map(a=>[a.id,a]));
-$("#out").innerHTML=Object.values(s.claims).map(c=>`<div class="claim ${c.status}"><div class="tag">${label[c.status]}${c.note?" - "+c.note:""}</div>
-<strong>${c.project}</strong><p>${c.work_done}</p><p>Impact: ${c.impact||"<em>not stated</em>"}</p>
-<details><summary>Sources (${c.artifact_ids.length})</summary>${c.artifact_ids.map(i=>by[i]?`<div class="src"><a href="${by[i].url}">${i}</a> ${by[i].title}: ${by[i].excerpt}</div>`:"").join("")}</details>
-${c.question?`<div class="row"><input id="a-${c.id}" aria-label="Answer" placeholder="${c.question}"><button onclick="ans('${c.id}')">Save answer</button></div>`:""}
-<div class="row"><button onclick="dec('${c.id}','approve')">Approve${c.decision==="approve"?" (done)":""}</button><button onclick="dec('${c.id}','reject')">Reject${c.decision==="reject"?" (done)":""}</button></div></div>`).join("")}
-async function ans(id){await post(`/api/claims/${id}/answer`,{text:$("#a-"+id).value});draw()}
+const $=s=>document.querySelector(s),esc=t=>String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const j=(u,o)=>fetch(u,o).then(r=>r.json()),post=(u,b)=>j(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)});
+const label={unchecked:"Wording not fact-checked",verified:"Checked against sources",self_reported:"Self-reported (unverified)",unsupported:"Unsupported, held back"};
+const dtext={approve:"approved",reject:"rejected"};let S={artifacts:[],claims:{}},cur=null;
+const usedSet=()=>new Set(Object.values(S.claims).flatMap(c=>c.artifact_ids));
+async function build(){const b=$("#b");b.disabled=true;$("#msg").textContent="Building and checking entries. This can take up to a minute...";
+try{const res=await fetch("/api/extract",{method:"POST"});if(!res.ok)throw new Error(await res.text());const r=await res.json();
+$("#msg").textContent=r.mode==="fallback"?"Test mode: no Gemini key set, so entries are not AI-written.":""}
+catch(e){$("#msg").textContent="Build failed. Check the server terminal. "+e.message}b.disabled=false;draw()}
+async function draw(){S=await j("/api/state");const cl=Object.values(S.claims),u=usedSet(),n=k=>cl.filter(c=>c.status===k).length,unused=S.artifacts.filter(a=>!u.has(a.id)).length;
+$("#sum").textContent=cl.length?`${cl.length} entries: ${n("verified")} checked, ${n("self_reported")+n("unchecked")} to review, ${n("unsupported")} held back. ${unused} of ${S.artifacts.length} sources unused.`:`${S.artifacts.length} sources loaded. Click Build my case.`;
+$("#entries").innerHTML=cl.map(c=>`<button class="tile ${c.status}" onclick="openEntry('${c.id}')"><b>${esc(c.project)}</b><span>${esc(c.work_done)}</span><small>${label[c.status]}${dtext[c.decision]?" · "+dtext[c.decision]:""}</small></button>`).join("");
+$("#sources").innerHTML=S.artifacts.map(a=>`<button class="tile chip ${u.has(a.id)?"":"unused"}" onclick="openSource('${a.id}')"><b>${esc(a.id)}</b><span>${esc(a.title)}</span><small>${u.has(a.id)?"Used":"Unused"}</small></button>`).join("");
+if($("#dlg").open&&cur)render()}
+function openEntry(id){cur={t:"e",id};render();$("#dlg").showModal()}
+function openSource(id){cur={t:"s",id};render();$("#dlg").showModal()}
+function render(){const by=Object.fromEntries(S.artifacts.map(a=>[a.id,a])),close=`<button onclick="$('#dlg').close()">Close</button>`;let h="";
+if(cur.t==="e"){const c=S.claims[cur.id];if(!c){$("#dlg").close();return}
+h=`<h3>${esc(c.project)}</h3><p class="t-${c.status}"><strong>${label[c.status]}</strong>${c.note?" - "+esc(c.note):""}</p><p>${esc(c.work_done)}</p><p><strong>Impact:</strong> ${c.impact?esc(c.impact):"<em>not stated</em>"}</p>
+${c.wording&&c.wording.issue?`<p><strong>Fact-check note:</strong> ${esc(c.wording.issue)}</p>`:""}<h4>Sources</h4>
+${c.artifact_ids.map(i=>by[i]?`<div class="src"><strong>${esc(i)}</strong> (${esc(by[i].source_type)}, ${esc(by[i].date)}) ${esc(by[i].title)}<br>${esc(by[i].excerpt)}</div>`:`<div class="src">${esc(i)}: not found</div>`).join("")}
+${c.question?`<div class="row"><input id="ans" aria-label="Answer" placeholder="${esc(c.question)}"><button onclick="ans('${c.id}')">Save answer</button></div>`:""}
+<div class="row"><button onclick="dec('${c.id}','approve')">Approve</button><button onclick="dec('${c.id}','reject')">Reject</button>${close}</div>`}
+else{const a=by[cur.id],cit=Object.values(S.claims).filter(c=>c.artifact_ids.includes(a.id));
+h=`<h3>${esc(a.id)}: ${esc(a.title)}</h3><p>${esc(a.source_type)} · ${esc(a.project)} · ${esc(a.date)}</p><div class="src">${esc(a.excerpt)}</div><h4>Cited by</h4>${cit.length?cit.map(c=>`<p>${esc(c.work_done)}</p>`).join(""):"<p><em>No entry uses this source.</em></p>"}<div class="row">${close}</div>`}
+$("#dlgbody").innerHTML=h}
+async function ans(id){await post(`/api/claims/${id}/answer`,{text:$("#ans").value});draw()}
 async function dec(id,d){await post(`/api/claims/${id}/decision`,{decision:d});draw()}
+async function up(){const f=$("#f").files[0];if(!f)return;const fd=new FormData();fd.append("file",f);fd.append("project",$("#proj").value||"Uploaded");
+const r=await fetch("/api/upload",{method:"POST",body:fd});$("#msg").textContent=r.ok?"Added "+f.name+". Click Build my case to include it.":"Upload failed.";draw()}
 draw();
 </script></body></html>
