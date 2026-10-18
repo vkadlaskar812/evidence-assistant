@@ -7,12 +7,13 @@ from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from validator import validate_claim
+import time
 
 BASE = Path(__file__).parent
 load_dotenv(BASE / ".env", override=True)
 EMP = os.getenv("EMPLOYEE", "Priya")
 app = FastAPI()
-STATE = {"artifacts": json.loads((BASE / "data/demo_data.json").read_text(encoding="utf-8")), "claims": {}, "answers": {}}
+STATE = {"artifacts": json.loads((BASE / os.getenv("DATA_FILE", "data/demo_data.json")).read_text(encoding="utf-8")), "claims": {}, "answers": {}}
 
 PROMPT = f"""You prepare the annual promotion case for an employee named {EMP}. Return a JSON list.
 Each item: project, work_done (1-2 sentences on what {EMP} personally did), impact (the OUTCOME of the work,
@@ -23,18 +24,16 @@ Rules:
   or by "Team", is not hers: skip it, or describe it as a team result beginning "Team result:".
 - Team-level or epic-level figures are not her own impact: leave impact empty or begin it with "Team result:".
 - Skip open or unfinished items and trivial changes such as typos.
-- Combine related tickets, pull requests and documents into one item per outcome or deliverable; do not write
-  one item per record. Aim for 8 to 14 items in total.
+- Counts such as attendees, tests, pages or tickets describe the activity; they are not impact. Leave impact empty unless a source states a result (time saved, usage, quality, revenue).
+- Combine only closely related records (a ticket with its pull request and design note) into one item per deliverable. Never bundle unrelated work into one item. Aim for 3 to 6 items for the evidence below.
 Evidence:
 """
 
-CHECK = """You are a strict fact-checker. Using ONLY the sources, decide whether every statement in the claim is
-directly supported. Treat causal links ("by doing X"), ownership ("authored", "led", "delivered") and scope
-(team or epic results credited to one person) as unsupported unless a source states them; a source's owner
-field decides who did the work. Return JSON: {"supported": true or false, "issue": "one short sentence, empty if supported"}.
+CHECK = """You are a fact-checker. Using ONLY the sources (title and excerpt both count as source text), decide whether the claim adds anything the sources do not support. Flag only substantive additions: new facts or numbers, causal links ("by doing X", "which caused"), ownership ("authored", "led", "delivered") that does not match the source's owner field, and team or epic results credited to one person. Do NOT flag paraphrase or details that appear in a title. Return JSON: {"supported": true or false, "issue": "one short sentence, empty if supported"}.
 """
 
-def persist():  # single-document write, as recommended for Firestore
+def persist():
+    (BASE / "last_state.json").write_text(json.dumps(STATE), encoding="utf-8")
     if os.getenv("USE_FIRESTORE") == "1":
         from google.cloud import firestore
         firestore.Client().collection("cases").document("demo").set({"state": json.dumps(STATE)})
@@ -49,7 +48,21 @@ def _ask(prompt):
         contents=prompt, config={"response_mime_type": "application/json", "temperature": 0})
     return json.loads(r.text)
 
-def gemini_claims(arts): return _ask(PROMPT + json.dumps(arts))
+def gemini_claims(arts):
+    groups = {}
+    for a in arts: groups.setdefault(a["project"], []).append(a)
+    failed = []
+    def one(item):
+        proj, items = item
+        for attempt in range(3):
+            try: return _ask(PROMPT + json.dumps(items))
+            except Exception as e:
+                print(f"extraction failed for {proj} (attempt {attempt + 1}): {e}")
+                time.sleep(4 * (attempt + 1))
+        failed.append(proj); return []
+    with ThreadPoolExecutor(max_workers=2) as ex:
+        res = [c for r in ex.map(one, groups.items()) for c in r]
+    return res, failed
 
 def wording_check(claim, by_id):
     srcs = [{k: by_id[i].get(k, "") for k in ("id", "owner", "title", "excerpt")} for i in claim["artifact_ids"] if i in by_id]
@@ -82,7 +95,9 @@ def state(): return STATE
 @app.post("/api/extract")
 def extract():
     live = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_CLOUD_PROJECT")
-    raw = gemini_claims(STATE["artifacts"]) if live else fallback_claims(STATE["artifacts"])
+    failed = []
+    if live: raw, failed = gemini_claims(STATE["artifacts"])
+    else: raw = fallback_claims(STATE["artifacts"])
     STATE["claims"] = {f"C{i+1}": {**c, "id": f"C{i+1}", "decision": "pending"} for i, c in enumerate(raw)}
     STATE["answers"] = {}
     revalidate()
@@ -94,7 +109,7 @@ def extract():
                 c["wording"] = w
         revalidate()
     persist()
-    return {"mode": "gemini" if live else "fallback", "claims": len(raw)}
+    return {"mode": "gemini" if live else "fallback", "claims": len(raw), "failed": failed}
 
 class Answer(BaseModel): text: str
 @app.post("/api/claims/{cid}/answer")

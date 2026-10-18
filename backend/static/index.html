@@ -1,63 +1,792 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Promotion case builder</title>
-<style>
-:root{--ink:#1d2433;--paper:#f6f7f9;--line:#d9dde5;--blue:#2f5bd6;--ok:#1f7a4d;--warn:#9a6a00;--bad:#b3261e;--mute:#6b7385}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,sans-serif}
-main{max-width:1000px;margin:0 auto;padding:24px 16px}h1{font-size:1.5rem;margin:0 0 4px}h2{font-size:1.05rem;margin:24px 0 8px}h3{margin:0 0 6px}h4{margin:14px 0 4px}
-p.sub{margin:0 0 16px;color:var(--mute)}
-button{font:inherit;padding:8px 14px;border:1px solid var(--ink);background:#fff;border-radius:6px;cursor:pointer}
-button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button:disabled{opacity:.6;cursor:wait}
-:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
-input{flex:1;min-width:180px;padding:8px;border:1px solid var(--line);border-radius:6px;font:inherit;background:#fff}
-.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-.tile{text-align:left;display:flex;flex-direction:column;justify-content:flex-start;;width:100%;min-height:96px;background:#fff;border:1px solid var(--line);border-left:6px solid var(--line);border-radius:6px;padding:10px}
-.tile b{display:block;font-size:.85rem}.tile small{color:var(--mute)}
-.tile span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:.9rem}
-.tile.verified{border-left-color:var(--ok)}.tile.self_reported,.tile.unchecked{border-left-color:var(--warn)}.tile.unsupported{border-left-color:var(--bad)}
-.chip{min-height:0;padding:6px 8px;border-left-color:var(--ok)}
-.chip.unused{border:1px dashed var(--mute);border-left:6px solid var(--line);color:var(--mute);background:transparent}
-.t-verified{color:var(--ok)}.t-self_reported,.t-unchecked{color:var(--warn)}.t-unsupported{color:var(--bad)}
-.src{font-size:.9rem;background:var(--paper);padding:8px;border-radius:4px;margin:6px 0}
-dialog{max-width:640px;width:92%;border:1px solid var(--line);border-radius:8px;padding:20px;color:var(--ink)}dialog::backdrop{background:#0006}
-</style></head><body><main>
-<h1>Promotion case builder</h1><p class="sub">Evidence from your work tools, turned into form entries you can check.</p>
-<div class="row"><button class="primary" id="b" onclick="build()">Build my case</button><a href="/api/export.csv"><button>Export approved entries</button></a></div>
-<div class="row"><input id="proj" aria-label="Project name" placeholder="Project name for an uploaded file"><input id="f" type="file" aria-label="File" accept=".docx,.pptx,.txt"><button onclick="up()">Add file as evidence</button></div>
-<p id="msg" role="status"></p><p id="sum"></p>
-<h2>Entries</h2><div class="grid" id="entries"></div>
-<h2>Sources (dashed = not used by any entry)</h2><div class="grid" id="sources"></div>
-</main><dialog id="dlg"><div id="dlgbody"></div></dialog>
-<script>
-const $=s=>document.querySelector(s),esc=t=>String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const j=(u,o)=>fetch(u,o).then(r=>r.json()),post=(u,b)=>j(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)});
-const label={unchecked:"Wording not fact-checked",verified:"Checked against sources",self_reported:"Self-reported (unverified)",unsupported:"Unsupported, held back"};
-const dtext={approve:"approved",reject:"rejected"};let S={artifacts:[],claims:{}},cur=null;
-const usedSet=()=>new Set(Object.values(S.claims).flatMap(c=>c.artifact_ids));
-async function build(){const b=$("#b");b.disabled=true;$("#msg").textContent="Building and checking entries. This can take up to a minute...";
-try{const res=await fetch("/api/extract",{method:"POST"});if(!res.ok)throw new Error(await res.text());const r=await res.json();
-$("#msg").textContent=r.mode==="fallback"?"Test mode: no Gemini key set, so entries are not AI-written.":""}
-catch(e){$("#msg").textContent="Build failed. Check the server terminal. "+e.message}b.disabled=false;draw()}
-async function draw(){S=await j("/api/state");const cl=Object.values(S.claims),u=usedSet(),n=k=>cl.filter(c=>c.status===k).length,unused=S.artifacts.filter(a=>!u.has(a.id)).length;
-$("#sum").textContent=cl.length?`${cl.length} entries: ${n("verified")} checked, ${n("self_reported")+n("unchecked")} to review, ${n("unsupported")} held back. ${unused} of ${S.artifacts.length} sources unused.`:`${S.artifacts.length} sources loaded. Click Build my case.`;
-$("#entries").innerHTML=cl.map(c=>`<button class="tile ${c.status}" onclick="openEntry('${c.id}')"><b>${esc(c.project)}</b><span>${esc(c.work_done)}</span><small>${label[c.status]}${dtext[c.decision]?" · "+dtext[c.decision]:""}</small></button>`).join("");
-$("#sources").innerHTML=S.artifacts.map(a=>`<button class="tile chip ${u.has(a.id)?"":"unused"}" onclick="openSource('${a.id}')"><b>${esc(a.id)}</b><span>${esc(a.title)}</span><small>${u.has(a.id)?"Used":"Unused"}</small></button>`).join("");
-if($("#dlg").open&&cur)render()}
-function openEntry(id){cur={t:"e",id};render();$("#dlg").showModal()}
-function openSource(id){cur={t:"s",id};render();$("#dlg").showModal()}
-function render(){const by=Object.fromEntries(S.artifacts.map(a=>[a.id,a])),close=`<button onclick="$('#dlg').close()">Close</button>`;let h="";
-if(cur.t==="e"){const c=S.claims[cur.id];if(!c){$("#dlg").close();return}
-h=`<h3>${esc(c.project)}</h3><p class="t-${c.status}"><strong>${label[c.status]}</strong>${c.note?" - "+esc(c.note):""}</p><p>${esc(c.work_done)}</p><p><strong>Impact:</strong> ${c.impact?esc(c.impact):"<em>not stated</em>"}</p>
-${c.wording&&c.wording.issue?`<p><strong>Fact-check note:</strong> ${esc(c.wording.issue)}</p>`:""}<h4>Sources</h4>
-${c.artifact_ids.map(i=>by[i]?`<div class="src"><strong>${esc(i)}</strong> (${esc(by[i].source_type)}, ${esc(by[i].date)}) ${esc(by[i].title)}<br>${esc(by[i].excerpt)}</div>`:`<div class="src">${esc(i)}: not found</div>`).join("")}
-${c.question?`<div class="row"><input id="ans" aria-label="Answer" placeholder="${esc(c.question)}"><button onclick="ans('${c.id}')">Save answer</button></div>`:""}
-<div class="row"><button onclick="dec('${c.id}','approve')">Approve</button><button onclick="dec('${c.id}','reject')">Reject</button>${close}</div>`}
-else{const a=by[cur.id],cit=Object.values(S.claims).filter(c=>c.artifact_ids.includes(a.id));
-h=`<h3>${esc(a.id)}: ${esc(a.title)}</h3><p>${esc(a.source_type)} · ${esc(a.project)} · ${esc(a.date)}</p><div class="src">${esc(a.excerpt)}</div><h4>Cited by</h4>${cit.length?cit.map(c=>`<p>${esc(c.work_done)}</p>`).join(""):"<p><em>No entry uses this source.</em></p>"}<div class="row">${close}</div>`}
-$("#dlgbody").innerHTML=h}
-async function ans(id){await post(`/api/claims/${id}/answer`,{text:$("#ans").value});draw()}
-async function dec(id,d){await post(`/api/claims/${id}/decision`,{decision:d});draw()}
-async function up(){const f=$("#f").files[0];if(!f)return;const fd=new FormData();fd.append("file",f);fd.append("project",$("#proj").value||"Uploaded");
-const r=await fetch("/api/upload",{method:"POST",body:fd});$("#msg").textContent=r.ok?"Added "+f.name+". Click Build my case to include it.":"Upload failed.";draw()}
-draw();
-</script></body></html>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Promotion case builder</title>
+    <style>
+        :root {
+            --ink: #14213d;
+            --mute: #5b6475;
+            --line: #d8dde6;
+            --bg: #f3f5f7;
+            --teal: #0b6b6b;
+            --ok: #1b7f55;
+            --warn: #a36a00;
+            --bad: #b3261e;
+            --serif: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+            --mono: ui-monospace, Consolas, "Courier New", monospace
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font: 16px/1.5 "Segoe UI", system-ui, sans-serif;
+            background: var(--bg)
+        }
+
+        .wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 18px
+        }
+
+        .mast {
+            background: #fff;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .mast .wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font: 700 1.05rem var(--serif)
+        }
+
+        .brand b {
+            color: var(--teal)
+        }
+
+        .pill {
+            font: 600 .68rem var(--mono);
+            color: var(--mute);
+            border-left: 1px solid var(--line);
+            padding: 4px 0 4px 12px;
+            letter-spacing: .06em;
+            text-transform: uppercase
+        }
+
+        .hero {
+            padding: 34px 0 10px
+        }
+
+        .eyebrow {
+            margin: 0;
+            font: 600 .75rem var(--mono);
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--teal)
+        }
+
+        h1 {
+            font: 600 2rem/1.2 "Segoe UI", system-ui, sans-serif;
+            margin: 6px 0 6px
+        }
+
+        .lede {
+            margin: 0;
+            max-width: 640px;
+            color: var(--mute)
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px
+        }
+
+        .chip2 {
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+            font-size: .82rem;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 99px;
+            padding: 3px 10px 3px 8px;
+            animation: rise .4s both
+        }
+
+        .steps {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            padding: 0;
+            margin: 20px 0
+        }
+
+        .step {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 10px 0 14px
+        }
+
+        .step::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 3px;
+            border-radius: 3px;
+            background: var(--line);
+            transition: background .4s
+        }
+
+        .step.done::after,
+        .step.ready::after {
+            background: var(--teal)
+        }
+
+        .step.active::after {
+            background: linear-gradient(90deg, var(--teal) 30%, #9ad0cf 50%, var(--teal) 70%) 0 0/200% 100%;
+            animation: shim 1.2s linear infinite
+        }
+
+        .orb {
+            position: relative;
+            flex: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: #fff;
+            border: 1.5px solid var(--line);
+            color: var(--mute);
+            transition: .3s
+        }
+
+        .done .orb {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: #fff
+        }
+
+        .active .orb,
+        .ready .orb {
+            border-color: var(--teal);
+            color: var(--teal)
+        }
+
+        .ring {
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 2px solid var(--teal);
+            border-top-color: transparent;
+            animation: spin 1s linear infinite
+        }
+
+        .stx b {
+            display: block;
+            font-size: .95rem;
+            line-height: 1.2
+        }
+
+        .stx small {
+            color: var(--mute);
+            font-size: .8rem
+        }
+
+        .btn,
+        button {
+            font: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border: 1px solid var(--ink);
+            background: #fff;
+            color: var(--ink);
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform .15s, box-shadow .15s, background .15s
+        }
+
+        .btn:hover,
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px #14213d22
+        }
+
+        button.primary {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: #fff
+        }
+
+        button:disabled {
+            opacity: .7;
+            cursor: wait;
+            transform: none
+        }
+
+        .busy::after {
+            content: "";
+            width: 14px;
+            height: 14px;
+            border: 2px solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin .7s linear infinite
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--teal);
+            outline-offset: 2px
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 10px
+        }
+
+        input {
+            flex: 1;
+            min-width: 180px;
+            padding: 8px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font: inherit;
+            background: #fff
+        }
+
+        #msg {
+            min-height: 1.5em;
+            margin: 12px 0 0;
+            color: var(--mute)
+        }
+
+        #msg.err {
+            color: var(--bad)
+        }
+
+        .ribbon {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 26px;
+            margin: 16px 0 4px;
+            padding: 12px 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .ribbon div {
+            display: flex;
+            align-items: baseline;
+            gap: 8px
+        }
+
+        .ribbon b {
+            font: 400 2rem/1 var(--serif)
+        }
+
+        .ribbon span {
+            color: var(--mute);
+            font-size: .85rem
+        }
+
+        .ribbon .ok b {
+            color: var(--ok)
+        }
+
+        .ribbon .warn b {
+            color: var(--warn)
+        }
+
+        .ribbon .bad b {
+            color: var(--bad)
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font: 400 1.35rem var(--serif);
+            margin: 28px 0 12px
+        }
+
+        h2 i {
+            flex: 1;
+            height: 1px;
+            background: var(--line)
+        }
+
+        h2 small {
+            font: .8rem var(--mono);
+            color: var(--mute)
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(235px, 1fr))
+        }
+
+        .tile {
+            position: relative;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 6px;
+            width: 100%;
+            min-height: 118px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--line);
+            border-radius: 10px;
+            padding: 11px 12px
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            font: 600 .7rem var(--mono);
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--mute)
+        }
+
+        .txt {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: .93rem
+        }
+
+        .foot {
+            margin-top: auto;
+            font-size: .76rem;
+            color: var(--mute)
+        }
+
+        .anim .tile {
+            animation: rise .4s both;
+            animation-delay: calc(var(--i)*45ms)
+        }
+
+        .verified {
+            border-left-color: var(--ok)
+        }
+
+        .self_reported,
+        .unchecked {
+            border-left-color: var(--warn)
+        }
+
+        .unsupported {
+            border-left-color: var(--bad)
+        }
+
+        .verified .ico,
+        .t-verified {
+            color: var(--ok)
+        }
+
+        .self_reported .ico,
+        .unchecked .ico,
+        .t-self_reported,
+        .t-unchecked {
+            color: var(--warn)
+        }
+
+        .unsupported .ico,
+        .t-unsupported {
+            color: var(--bad)
+        }
+
+        .stamp {
+            position: absolute;
+            right: 10px;
+            bottom: 30px;
+            transform: rotate(-8deg);
+            border: 2px solid var(--bad);
+            color: var(--bad);
+            border-radius: 4px;
+            padding: 0 6px;
+            font: 700 .68rem/1.5 var(--mono);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            opacity: .85
+        }
+
+        .stamp.approved {
+            border-color: var(--ok);
+            color: var(--ok)
+        }
+
+        .anim .stamp {
+            animation: stamp .35s .55s both
+        }
+
+        .stamp.entering {
+            animation: stamp .35s .1s both
+        }
+
+        .src {
+            min-height: 88px;
+            border-left-color: var(--ok)
+        }
+
+        .src .top {
+            text-transform: none;
+            font-size: .78rem;
+            color: var(--ink)
+        }
+
+        .src.unused {
+            border: 1px dashed var(--mute);
+            border-left: 5px solid var(--line);
+            background: transparent;
+            color: var(--mute)
+        }
+
+        .src.dim {
+            opacity: .28
+        }
+
+        .src.hl {
+            transform: translateY(-2px);
+            box-shadow: 0 0 0 3px #0b6b6b44
+        }
+
+        .src {
+            transition: opacity .2s, transform .2s, box-shadow .2s
+        }
+
+        .skel {
+            height: 118px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #e6e9f0 25%, #f6f7fa 50%, #e6e9f0 75%) 0 0/200% 100%;
+            animation: shim 1.2s linear infinite
+        }
+
+        .card {
+            font-size: .9rem;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            padding: 9px 11px;
+            border-radius: 8px;
+            margin: 8px 0
+        }
+
+        .card .top {
+            margin-bottom: 3px
+        }
+
+        dialog {
+            max-width: 660px;
+            width: 92%;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 22px;
+            color: var(--ink);
+            animation: pop .22s
+        }
+
+        dialog::backdrop {
+            background: #14213d88
+        }
+
+        dialog h3 {
+            font: 400 1.4rem var(--serif);
+            margin: 0 0 4px;
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        dialog h4 {
+            margin: 16px 0 2px;
+            font: 600 .75rem var(--mono);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--mute)
+        }
+
+        #toast {
+            position: fixed;
+            left: 50%;
+            bottom: 22px;
+            transform: translate(-50%, 40px);
+            background: var(--ink);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 99px;
+            opacity: 0;
+            transition: .25s;
+            pointer-events: none
+        }
+
+        #toast.on {
+            opacity: 1;
+            transform: translate(-50%, 0)
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+        }
+
+        @keyframes pop {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(.97)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes shim {
+            to {
+                background-position: -200% 0
+            }
+        }
+
+        @keyframes stamp {
+            from {
+                opacity: 0;
+                transform: rotate(-8deg) scale(1.8)
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="mast">
+        <div class="wrap">
+            <div class="brand"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+                    <rect width="28" height="28" rx="7" fill="#0b6b6b" />
+                    <path d="M8 10h12M8 14h8M8 18h5" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+                    <path d="m16 19 3 3 5-6" stroke="#ffd166" stroke-width="2.4" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg><span>Case<b>Ledger</b></span></div><span class="pill">Demo data · mock connectors</span>
+        </div>
+    </header>
+    <main class="wrap">
+        <section class="hero">
+            <p class="eyebrow">FY 2026 · Promotion review</p>
+            <h1>Promotion case review</h1>
+            <p class="lede">Draft contributions, inspect their evidence, and export approved entries.</p>
+            <div class="chips" id="types"></div>
+        </section>
+        <ol class="steps" id="steps"></ol>
+        <div class="row"><button class="primary" id="b" onclick="build()">Build my case</button><a class="btn" id="ex"
+            href="/api/export.csv" download="approved_entries.csv">Export approved entries</a></div>
+        <div class="row"><input id="proj" aria-label="Project name"
+                placeholder="Project name for an uploaded file"><input id="f" type="file" aria-label="File"
+            accept=".docx,.pptx,.txt"><button id="u" onclick="up()">Add file as evidence</button></div>
+        <p id="msg" role="status"></p>
+        <div class="ribbon" id="stats"></div>
+        <h2>Entries <i></i><small id="ec"></small></h2>
+        <div class="grid" id="entries"></div>
+        <h2>Sources <i></i><small id="sc"></small></h2>
+        <div class="grid" id="sources"></div>
+    </main>
+    <dialog id="dlg"><div id="dlgbody"></div></dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script>
+        const $ = selector => document.querySelector(selector);
+        const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+        const labels = { unchecked: "Wording not fact-checked", verified: "Checked against sources", self_reported: "Self-reported (unverified)", unsupported: "Unsupported, held back" };
+        const icons = { verified: "✓", self_reported: "!", unchecked: "!", unsupported: "✕" };
+        let state = { artifacts: [], claims: {} }, current = null, fresh = false;
+            let decisionFresh = null;
+        function toast(message) {
+            const element = $("#toast");
+            element.textContent = message;
+            element.classList.add("on");
+            clearTimeout(toast.timer);
+            toast.timer = setTimeout(() => element.classList.remove("on"), 2000);
+        }
+        async function request(url, options) {
+            const response = await fetch(url, options);
+            if (!response.ok) throw new Error(await response.text() || `Request failed (${response.status})`);
+            return response.json();
+        }
+        function drawSteps(running = false) {
+            const claims = Object.values(state.claims);
+            const reviewed = claims.length && claims.every(c => ["approve", "reject"].includes(c.decision));
+            const steps = [["Collect evidence", "Use demo sources or add a file."], ["Draft and verify", "Generate claims and check sources."], ["Review and export", "Approve entries for the CSV."]];
+            $("#steps").innerHTML = steps.map(([title, detail], index) => {
+                const done = index === 0 ? state.artifacts.length > 0 : index === 1 ? claims.length > 0 && !running : reviewed;
+                const active = index === 1 && running, ready = index === 2 && claims.length > 0 && !reviewed;
+                return `<li class="step ${done ? "done" : active ? "active" : ready ? "ready" : ""}"><span class="orb">${done ? "✓" : index + 1}${active ? '<i class="ring"></i>' : ""}</span><span class="stx"><b>${title}</b><small>${detail}</small></span></li>`;
+            }).join("");
+        }
+        async function draw() {
+            try {
+                state = await request("/api/state");
+                state.artifacts ||= [];
+                state.claims ||= {};
+            } catch (error) {
+                $("#msg").classList.add("err");
+                $("#msg").textContent = `Could not load app data: ${error.message}`;
+                return;
+            }
+            const claims = Object.values(state.claims);
+            const used = new Set(claims.flatMap(c => c.artifact_ids || []));
+            const counts = [claims.length, claims.filter(c => c.status === "verified").length,
+                claims.filter(c => ["unchecked", "self_reported"].includes(c.status)).length,
+                claims.filter(c => c.status === "unsupported").length,
+                state.artifacts.filter(a => !used.has(a.id)).length];
+            const stats = [["Entries", ""], ["Checked", "ok"], ["To review", "warn"], ["Held back", "bad"], ["Sources unused", ""]];
+            $("#stats").innerHTML = stats.map(([label, klass], i) => `<div class="${klass}"><b>${counts[i]}</b><span>${label}</span></div>`).join("");
+            $("#ec").textContent = `${claims.length} total`;
+            $("#sc").textContent = `${state.artifacts.length} total`;
+            const types = [...new Set(state.artifacts.map(a => a.source_type).filter(Boolean))];
+            $("#types").innerHTML = types.map(type => `<span class="chip2">${esc(type)} <b>${state.artifacts.filter(a => a.source_type === type).length}</b></span>`).join("");
+            $("#entries").className = `grid${fresh ? " anim" : ""}`;
+            $("#entries").innerHTML = claims.length ? claims.map((c, i) => {
+                const decision = c.decision === "approve" ? "Approved" : c.decision === "reject" ? "Rejected" : "Pending review";
+                const entering = decisionFresh === c.id ? " entering" : "";
+                const stamp = c.decision === "approve" ? '<span class="stamp approved' + entering + '"><span aria-hidden="true">✓</span> Approved</span>' : c.decision === "reject" ? '<span class="stamp' + entering + '">Rejected</span>' : "";
+                return `<button class="tile ${esc(c.status)}" style="--i:${i}" data-entry="${esc(c.id)}"><span class="top"><span>${esc(c.project)}</span><span class="ico">${icons[c.status] || "!"}</span></span><span class="txt">${esc(c.work_done)}</span><span class="foot">${esc(labels[c.status] || "Needs review")} · ${decision}</span>${stamp}</button>`;
+            }).join("") : "<p>No entries yet. Build your case to create drafts from available sources.</p>";
+            decisionFresh = null;
+            $("#sources").innerHTML = state.artifacts.map(a => `<button class="tile src${used.has(a.id) ? "" : " unused"}" data-source="${esc(a.id)}"><span class="top"><b>${esc(a.id)}</b><span>${used.has(a.id) ? "Used" : "Unused"}</span></span><span class="txt">${esc(a.title)}</span><span class="foot">${esc(a.source_type)} · ${esc(a.project)}</span></button>`).join("") || "<p>No sources loaded.</p>";
+            fresh = false;
+            drawSteps();
+            if ($("#dlg").open && current) renderDialog();
+        }
+        async function build() {
+            const button = $("#b");
+            button.disabled = true;
+            button.classList.add("busy");
+            $("#msg").classList.remove("err");
+            $("#msg").textContent = "Building and checking entries. This can take up to a minute...";
+            $("#entries").innerHTML = Array(4).fill('<div class="skel"></div>').join("");
+            drawSteps(true);
+            try {
+                const result = await request("/api/extract", { method: "POST" });
+                $("#msg").textContent = result.failed?.length ? `Could not build: ${result.failed.join(", ")}. Check the server logs and try again.` : result.mode === "fallback" ? "Test mode: no Gemini credentials set; entries are not AI-written." : "Drafts ready. Review each entry and its sources before approval.";
+                fresh = true;
+            } catch (error) {
+                $("#msg").classList.add("err");
+                $("#msg").textContent = `Build failed: ${error.message}`;
+            } finally {
+                button.disabled = false;
+                button.classList.remove("busy");
+                await draw();
+            }
+        }
+        function renderDialog() {
+            const byId = Object.fromEntries(state.artifacts.map(a => [a.id, a]));
+            const close = '<button type="button" data-close>Close</button>';
+            if (current.type === "entry") {
+                const c = state.claims[current.id];
+                if (!c) { $("#dlg").close(); return; }
+                const sources = (c.artifact_ids || []).map(id => {
+                    const a = byId[id];
+                    return a ? `<div class="card"><div class="top"><b>${esc(id)} · ${esc(a.source_type)} · ${esc(a.date)}</b></div><strong>${esc(a.title)}</strong><p>${esc(a.excerpt)}</p></div>` : `<div class="card">${esc(id)}: source not found</div>`;
+                }).join("");
+                const question = c.question ? `<div class="row"><input id="answer" aria-label="Impact answer" placeholder="${esc(c.question)}"><button type="button" data-answer="${esc(c.id)}">Save answer</button></div>` : "";
+                const impact = c.impact ? esc(c.impact) : "<em>Not stated in the sources</em>";
+                $("#dlgbody").innerHTML = `<h3 id="dlgtitle"><span class="ico ${esc(c.status)}">${icons[c.status] || "!"}</span>${esc(c.project)}</h3><p class="t-${esc(c.status)}"><strong>${esc(labels[c.status] || "Needs review")}</strong>${c.note ? ` · ${esc(c.note)}` : ""}</p><p>${esc(c.work_done)}</p><p><strong>Impact:</strong> ${impact}</p>${c.wording?.issue ? `<p><strong>Fact-check note:</strong> ${esc(c.wording.issue)}</p>` : ""}<h4>Sources</h4>${sources || "<p>No valid sources cited.</p>"}${question}<div class="row"><button type="button" data-decision="approve" data-id="${esc(c.id)}" ${c.decision === "approve" ? "disabled" : ""}>Approve</button><button type="button" data-decision="reject" data-id="${esc(c.id)}" ${c.decision === "reject" ? "disabled" : ""}>Reject</button>${close}</div>`;
+            } else {
+                const a = byId[current.id];
+                if (!a) { $("#dlg").close(); return; }
+                const citing = Object.values(state.claims).filter(c => (c.artifact_ids || []).includes(a.id));
+                $("#dlgbody").innerHTML = `<h3 id="dlgtitle">${esc(a.id)}: ${esc(a.title)}</h3><p>${esc(a.source_type)} · ${esc(a.project)} · ${esc(a.date)}</p><div class="card">${esc(a.excerpt)}</div><h4>Cited by</h4>${citing.length ? citing.map(c => `<p>${esc(c.work_done)}</p>`).join("") : "<p><em>No entry uses this source.</em></p>"}<div class="row">${close}</div>`;
+            }
+            $("#dlg").showModal();
+        }
+        async function answer(id) {
+            const input = $("#answer");
+            if (!input?.value.trim()) { input?.focus(); return; }
+            try {
+                await request(`/api/claims/${encodeURIComponent(id)}/answer`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: input.value.trim() }) });
+                toast("Answer saved as self-reported");
+                await draw();
+            } catch (error) { toast(`Could not save answer: ${error.message}`); }
+        }
+        async function decide(id, decision) {
+            try {
+                await request(`/api/claims/${encodeURIComponent(id)}/decision`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ decision }) });
+                toast(decision === "approve" ? "Entry approved" : "Entry rejected");
+                decisionFresh = id;
+                await draw();
+            } catch (error) { toast(`Could not save decision: ${error.message}`); }
+        }
+        async function up() {
+            const file = $("#f").files[0];
+            if (!file) { toast("Choose a file first"); return; }
+            const button = $("#u"), form = new FormData();
+            form.append("file", file);
+            form.append("project", $("#proj").value.trim() || "Uploaded");
+            button.disabled = true;
+            try {
+                const response = await fetch("/api/upload", { method: "POST", body: form });
+                if (!response.ok) throw new Error(await response.text());
+                $("#msg").classList.remove("err");
+                $("#msg").textContent = `Added ${file.name}. Click Build my case to include it.`;
+                $("#f").value = "";
+                await draw();
+            } catch (error) {
+                $("#msg").classList.add("err");
+                $("#msg").textContent = `Upload failed: ${error.message}`;
+            } finally { button.disabled = false; }
+        }
+        document.addEventListener("click", event => {
+            const target = event.target.closest("button");
+            if (!target) return;
+            if (target.matches("[data-entry]")) { current = { type: "entry", id: target.dataset.entry }; renderDialog(); }
+            else if (target.matches("[data-source]")) { current = { type: "source", id: target.dataset.source }; renderDialog(); }
+            else if (target.matches("[data-close]")) $("#dlg").close();
+            else if (target.matches("[data-decision]")) decide(target.dataset.id, target.dataset.decision);
+            else if (target.matches("[data-answer]")) answer(target.dataset.answer);
+        });
+        $("#entries").addEventListener("mouseover", event => {
+            const tile = event.target.closest("[data-entry]");
+            if (tile) highlightSources(state.claims[tile.dataset.entry]?.artifact_ids);
+        });
+        $("#entries").addEventListener("mouseout", event => {
+            if (!event.relatedTarget || !event.currentTarget.contains(event.relatedTarget)) highlightSources(null);
+        });
+        $("#entries").addEventListener("focusin", event => {
+            const tile = event.target.closest("[data-entry]");
+            if (tile) highlightSources(state.claims[tile.dataset.entry]?.artifact_ids);
+        });
+        $("#entries").addEventListener("focusout", () => highlightSources(null));
+        function highlightSources(ids) {
+            document.querySelectorAll("#sources [data-source]").forEach(source => {
+                source.classList.toggle("hl", !!ids && ids.includes(source.dataset.source));
+                source.classList.toggle("dim", !!ids && !ids.includes(source.dataset.source));
+            });
+        }
+        $("#dlg").addEventListener("click", event => { if (event.target === $("#dlg")) $("#dlg").close(); });
+        $("#dlg").addEventListener("close", () => { current = null; });
+        draw();
+    </script>
+</body>
+
+</html>
