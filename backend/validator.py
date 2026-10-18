@@ -1,19 +1,21 @@
 import re
-NUM = re.compile(r"(?<![A-Za-z\d\-])\d[\d,]*\.?\d*")
-def nums(t): return {n.replace(",", "").rstrip(".") for n in NUM.findall(t or "")}
+NUM = re.compile(r"\d[\d,]*\.?\d*")
+ISO = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
+def nums(t):
+    """Figures in a text. ISO dates (2026-03-31) are split into year, month, day so that
+    'March 31, 2026' and '2026-03-31' match each other."""
+    t, out = t or "", set()
+    for y, m, d in ISO.findall(t): out |= {y, str(int(m)), str(int(d))}
+    return out | {n.replace(",", "").rstrip(".") for n in NUM.findall(ISO.sub(" ", t))}
 
 def validate_claim(claim, by_id, answer=None):
     """Return (status, note). Every figure in a claim must appear in a cited source
-    (verified) or in the employee's own answer (self_reported); otherwise unsupported.
-    A claim with no figures at all is 'unchecked', because wording is not verified."""
+    (verified) or in the employee's own answer (self_reported); otherwise unsupported."""
     cited = [by_id[i] for i in claim.get("artifact_ids", []) if i in by_id]
     if not cited:
         return "unsupported", "no valid source cited"
-    claim_nums = nums(claim.get("work_done", "") + " " + claim.get("impact", ""))
-    if not claim_nums:
-        return "unchecked", "no figures to check; wording not verified"
     src = nums(" ".join(a["title"] + " " + a["excerpt"] for a in cited))
-    missing = claim_nums - src
+    missing = nums(claim.get("work_done", "") + " " + claim.get("impact", "")) - src
     if not missing:
         return "verified", ""
     if missing <= nums(answer):

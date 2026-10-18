@@ -8,5 +8,7 @@ assert validate_claim(ok, arts)[0] == "verified"
 assert validate_claim(bad, arts)[0] == "unsupported"
 assert validate_claim(bad, arts, "defects fell 40%")[0] == "self_reported"
 assert validate_claim(nosrc, arts)[0] == "unsupported"
-assert validate_claim({"work_done": "Moved refunds to v2.", "impact": "", "artifact_ids": ["JIRA-101"]}, arts)[0] == "unchecked"
+dated = {"TRN-2": {"id": "TRN-2", "title": "Course", "excerpt": "Completed on 2026-03-18, before the 2026-03-31 deadline."}}
+assert validate_claim({"work_done": "Finished before the March 31, 2026 deadline.", "impact": "", "artifact_ids": ["TRN-2"]}, dated)[0] == "verified"
+assert validate_claim({"work_done": "Finished before the April 30, 2026 deadline.", "impact": "", "artifact_ids": ["TRN-2"]}, dated)[0] == "unsupported"
 print("validator tests passed")

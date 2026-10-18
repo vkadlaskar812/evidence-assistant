@@ -1,0 +1,1502 @@
+[
+ {
+  "id": "PAY-J1",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-02-03",
+  "title": "Implement refund endpoint",
+  "url": "https://example.com/jira/PAY-J1",
+  "excerpt": "Done. Sprint 16. Refund endpoint implemented. Latency fell from 451 ms to 39 ms."
+ },
+ {
+  "id": "PAY-J2",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-02-17",
+  "title": "Implement capture endpoint",
+  "url": "https://example.com/jira/PAY-J2",
+  "excerpt": "Done. Sprint 15. Capture endpoint implemented."
+ },
+ {
+  "id": "PAY-J3",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-08-14",
+  "title": "Implement webhook signing",
+  "url": "https://example.com/jira/PAY-J3",
+  "excerpt": "Done. Sprint 11. Webhook signing implemented."
+ },
+ {
+  "id": "PAY-J4",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-08-02",
+  "title": "Implement settlement report",
+  "url": "https://example.com/jira/PAY-J4",
+  "excerpt": "Done. Sprint 11. Settlement report implemented. Latency fell from 191 ms to 50 ms."
+ },
+ {
+  "id": "PAY-J5",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-02-19",
+  "title": "Implement currency rounding",
+  "url": "https://example.com/jira/PAY-J5",
+  "excerpt": "Done. Sprint 13. Currency rounding implemented."
+ },
+ {
+  "id": "PAY-J6",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-05-02",
+  "title": "Implement audit log",
+  "url": "https://example.com/jira/PAY-J6",
+  "excerpt": "Done. Sprint 10. Audit log implemented."
+ },
+ {
+  "id": "PAY-J7",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-08-05",
+  "title": "Implement rate limiter",
+  "url": "https://example.com/jira/PAY-J7",
+  "excerpt": "Done. Sprint 14. Rate limiter implemented. Latency fell from 690 ms to 37 ms."
+ },
+ {
+  "id": "PAY-J8",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-06-18",
+  "title": "Implement idempotency layer",
+  "url": "https://example.com/jira/PAY-J8",
+  "excerpt": "Done. Sprint 19. Idempotency layer implemented."
+ },
+ {
+  "id": "PAY-J9",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-05-12",
+  "title": "Implement error catalog",
+  "url": "https://example.com/jira/PAY-J9",
+  "excerpt": "Done. Sprint 11. Error catalog implemented."
+ },
+ {
+  "id": "PAY-J10",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-03-19",
+  "title": "Implement sandbox keys",
+  "url": "https://example.com/jira/PAY-J10",
+  "excerpt": "Done. Sprint 21. Sandbox keys implemented. Latency fell from 219 ms to 90 ms."
+ },
+ {
+  "id": "PAY-PR11",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-02-20",
+  "title": "Add tests for refund endpoint",
+  "url": "https://example.com/github/PAY-PR11",
+  "excerpt": "Merged. Added 21 tests for refund endpoint."
+ },
+ {
+  "id": "PAY-PR12",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-09-22",
+  "title": "Add tests for capture endpoint",
+  "url": "https://example.com/github/PAY-PR12",
+  "excerpt": "Merged. Added 42 tests for capture endpoint. Reviewed by two engineers."
+ },
+ {
+  "id": "PAY-PR13",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-08-25",
+  "title": "Add tests for webhook signing",
+  "url": "https://example.com/github/PAY-PR13",
+  "excerpt": "Merged. Added 28 tests for webhook signing."
+ },
+ {
+  "id": "PAY-PR14",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-09-19",
+  "title": "Add tests for settlement report",
+  "url": "https://example.com/github/PAY-PR14",
+  "excerpt": "Merged. Added 37 tests for settlement report. Reviewed by two engineers."
+ },
+ {
+  "id": "PAY-PR15",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-07-10",
+  "title": "Add tests for currency rounding",
+  "url": "https://example.com/github/PAY-PR15",
+  "excerpt": "Merged. Added 23 tests for currency rounding."
+ },
+ {
+  "id": "PAY-PR16",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-04-23",
+  "title": "Add tests for audit log",
+  "url": "https://example.com/github/PAY-PR16",
+  "excerpt": "Merged. Added 57 tests for audit log. Reviewed by two engineers."
+ },
+ {
+  "id": "PAY-PR17",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-05-03",
+  "title": "Add tests for rate limiter",
+  "url": "https://example.com/github/PAY-PR17",
+  "excerpt": "Merged. Added 44 tests for rate limiter."
+ },
+ {
+  "id": "PAY-D18",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-06-17",
+  "title": "Design note: refund endpoint",
+  "url": "https://example.com/sharepoint/PAY-D18",
+  "excerpt": "Design note written by Priya for the refund endpoint work. 10 pages."
+ },
+ {
+  "id": "PAY-D19",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-07-24",
+  "title": "Design note: capture endpoint",
+  "url": "https://example.com/sharepoint/PAY-D19",
+  "excerpt": "Design note written by Priya for the capture endpoint work. 10 pages."
+ },
+ {
+  "id": "PAY-T20",
+  "source_type": "github",
+  "owner": "Rahul",
+  "project": "Payments API Migration",
+  "date": "2026-06-20",
+  "title": "Add dashboard for webhook signing",
+  "url": "https://example.com/github/PAY-T20",
+  "excerpt": "Merged. Built by Rahul and shared with the team."
+ },
+ {
+  "id": "PAY-T21",
+  "source_type": "jira",
+  "owner": "Karthik",
+  "project": "Payments API Migration",
+  "date": "2026-03-17",
+  "title": "Tune settlement report",
+  "url": "https://example.com/jira/PAY-T21",
+  "excerpt": "Done. Assignee: Karthik. 9 alerts reduced."
+ },
+ {
+  "id": "PAY-T22",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-08-06",
+  "title": "Investigate intermittent failure in currency rounding",
+  "url": "https://example.com/jira/PAY-T22",
+  "excerpt": "Open. Root cause not identified."
+ },
+ {
+  "id": "PAY-T23",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Payments API Migration",
+  "date": "2026-07-05",
+  "title": "Fix typo in README",
+  "url": "https://example.com/jira/PAY-T23",
+  "excerpt": "Done. Fixed a typo."
+ },
+ {
+  "id": "PAY-T24",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Payments API Migration",
+  "date": "2026-08-02",
+  "title": "Project retro",
+  "url": "https://example.com/sharepoint/PAY-T24",
+  "excerpt": "Team retro notes. The team delivered the work in 6 sprints."
+ },
+ {
+  "id": "PAY-T25",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Payments API Migration",
+  "date": "2026-03-25",
+  "title": "Demo notes",
+  "url": "https://example.com/sharepoint/PAY-T25",
+  "excerpt": "Demo notes mention roughly 60 tests and one open defect."
+ },
+ {
+  "id": "REL-J1",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-07-11",
+  "title": "Implement smoke test stage",
+  "url": "https://example.com/jira/REL-J1",
+  "excerpt": "Done. Sprint 22. Smoke test stage implemented. Latency fell from 691 ms to 93 ms."
+ },
+ {
+  "id": "REL-J2",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-09-19",
+  "title": "Implement rollback script",
+  "url": "https://example.com/jira/REL-J2",
+  "excerpt": "Done. Sprint 19. Rollback script implemented."
+ },
+ {
+  "id": "REL-J3",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-03-09",
+  "title": "Implement canary deploys",
+  "url": "https://example.com/jira/REL-J3",
+  "excerpt": "Done. Sprint 23. Canary deploys implemented."
+ },
+ {
+  "id": "REL-J4",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-03-02",
+  "title": "Implement build cache",
+  "url": "https://example.com/jira/REL-J4",
+  "excerpt": "Done. Sprint 20. Build cache implemented. Latency fell from 605 ms to 109 ms."
+ },
+ {
+  "id": "REL-J5",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-09-10",
+  "title": "Implement secret scanning",
+  "url": "https://example.com/jira/REL-J5",
+  "excerpt": "Done. Sprint 14. Secret scanning implemented."
+ },
+ {
+  "id": "REL-J6",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-07-01",
+  "title": "Implement artifact signing",
+  "url": "https://example.com/jira/REL-J6",
+  "excerpt": "Done. Sprint 24. Artifact signing implemented."
+ },
+ {
+  "id": "REL-J7",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-03-16",
+  "title": "Implement flaky test triage",
+  "url": "https://example.com/jira/REL-J7",
+  "excerpt": "Done. Sprint 12. Flaky test triage implemented. Latency fell from 592 ms to 65 ms."
+ },
+ {
+  "id": "REL-J8",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-06-05",
+  "title": "Implement deploy dashboard",
+  "url": "https://example.com/jira/REL-J8",
+  "excerpt": "Done. Sprint 22. Deploy dashboard implemented."
+ },
+ {
+  "id": "REL-J9",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-08-28",
+  "title": "Implement hotfix lane",
+  "url": "https://example.com/jira/REL-J9",
+  "excerpt": "Done. Sprint 16. Hotfix lane implemented."
+ },
+ {
+  "id": "REL-J10",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-09-13",
+  "title": "Implement image slimming",
+  "url": "https://example.com/jira/REL-J10",
+  "excerpt": "Done. Sprint 12. Image slimming implemented. Latency fell from 628 ms to 30 ms."
+ },
+ {
+  "id": "REL-PR11",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-06-05",
+  "title": "Add tests for smoke test stage",
+  "url": "https://example.com/github/REL-PR11",
+  "excerpt": "Merged. Added 60 tests for smoke test stage."
+ },
+ {
+  "id": "REL-PR12",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-08-28",
+  "title": "Add tests for rollback script",
+  "url": "https://example.com/github/REL-PR12",
+  "excerpt": "Merged. Added 43 tests for rollback script. Reviewed by two engineers."
+ },
+ {
+  "id": "REL-PR13",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-06-23",
+  "title": "Add tests for canary deploys",
+  "url": "https://example.com/github/REL-PR13",
+  "excerpt": "Merged. Added 34 tests for canary deploys."
+ },
+ {
+  "id": "REL-PR14",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-07-22",
+  "title": "Add tests for build cache",
+  "url": "https://example.com/github/REL-PR14",
+  "excerpt": "Merged. Added 32 tests for build cache. Reviewed by two engineers."
+ },
+ {
+  "id": "REL-PR15",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-05-05",
+  "title": "Add tests for secret scanning",
+  "url": "https://example.com/github/REL-PR15",
+  "excerpt": "Merged. Added 13 tests for secret scanning."
+ },
+ {
+  "id": "REL-PR16",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-04-05",
+  "title": "Add tests for artifact signing",
+  "url": "https://example.com/github/REL-PR16",
+  "excerpt": "Merged. Added 22 tests for artifact signing. Reviewed by two engineers."
+ },
+ {
+  "id": "REL-PR17",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-05-01",
+  "title": "Add tests for flaky test triage",
+  "url": "https://example.com/github/REL-PR17",
+  "excerpt": "Merged. Added 39 tests for flaky test triage."
+ },
+ {
+  "id": "REL-D18",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-04-09",
+  "title": "Design note: smoke test stage",
+  "url": "https://example.com/sharepoint/REL-D18",
+  "excerpt": "Design note written by Priya for the smoke test stage work. 7 pages."
+ },
+ {
+  "id": "REL-D19",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-02-05",
+  "title": "Design note: rollback script",
+  "url": "https://example.com/sharepoint/REL-D19",
+  "excerpt": "Design note written by Priya for the rollback script work. 9 pages."
+ },
+ {
+  "id": "REL-T20",
+  "source_type": "github",
+  "owner": "Rahul",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-07-20",
+  "title": "Add dashboard for canary deploys",
+  "url": "https://example.com/github/REL-T20",
+  "excerpt": "Merged. Built by Rahul and shared with the team."
+ },
+ {
+  "id": "REL-T21",
+  "source_type": "jira",
+  "owner": "Karthik",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-04-23",
+  "title": "Tune build cache",
+  "url": "https://example.com/jira/REL-T21",
+  "excerpt": "Done. Assignee: Karthik. 25 alerts reduced."
+ },
+ {
+  "id": "REL-T22",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-02-15",
+  "title": "Investigate intermittent failure in secret scanning",
+  "url": "https://example.com/jira/REL-T22",
+  "excerpt": "Open. Root cause not identified."
+ },
+ {
+  "id": "REL-T23",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-08-13",
+  "title": "Fix typo in README",
+  "url": "https://example.com/jira/REL-T23",
+  "excerpt": "Done. Fixed a typo."
+ },
+ {
+  "id": "REL-T24",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-08-04",
+  "title": "Project retro",
+  "url": "https://example.com/sharepoint/REL-T24",
+  "excerpt": "Team retro notes. The team delivered the work in 6 sprints."
+ },
+ {
+  "id": "REL-T25",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Release Pipeline Hardening",
+  "date": "2026-09-21",
+  "title": "Demo notes",
+  "url": "https://example.com/sharepoint/REL-T25",
+  "excerpt": "Demo notes mention roughly 60 tests and one open defect."
+ },
+ {
+  "id": "INS-J1",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-03-07",
+  "title": "Implement churn view",
+  "url": "https://example.com/jira/INS-J1",
+  "excerpt": "Done. Sprint 13. Churn view implemented. Latency fell from 530 ms to 27 ms."
+ },
+ {
+  "id": "INS-J2",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-20",
+  "title": "Implement cohort query",
+  "url": "https://example.com/jira/INS-J2",
+  "excerpt": "Done. Sprint 11. Cohort query implemented."
+ },
+ {
+  "id": "INS-J3",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-04-18",
+  "title": "Implement region filter",
+  "url": "https://example.com/jira/INS-J3",
+  "excerpt": "Done. Sprint 10. Region filter implemented."
+ },
+ {
+  "id": "INS-J4",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-02-03",
+  "title": "Implement export to CSV",
+  "url": "https://example.com/jira/INS-J4",
+  "excerpt": "Done. Sprint 19. Export to csv implemented. Latency fell from 223 ms to 66 ms."
+ },
+ {
+  "id": "INS-J5",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-04-21",
+  "title": "Implement alert rules",
+  "url": "https://example.com/jira/INS-J5",
+  "excerpt": "Done. Sprint 16. Alert rules implemented."
+ },
+ {
+  "id": "INS-J6",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-16",
+  "title": "Implement retention chart",
+  "url": "https://example.com/jira/INS-J6",
+  "excerpt": "Done. Sprint 19. Retention chart implemented."
+ },
+ {
+  "id": "INS-J7",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-09-15",
+  "title": "Implement segment builder",
+  "url": "https://example.com/jira/INS-J7",
+  "excerpt": "Done. Sprint 23. Segment builder implemented. Latency fell from 245 ms to 34 ms."
+ },
+ {
+  "id": "INS-J8",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-03-05",
+  "title": "Implement data freshness badge",
+  "url": "https://example.com/jira/INS-J8",
+  "excerpt": "Done. Sprint 14. Data freshness badge implemented."
+ },
+ {
+  "id": "INS-J9",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-06-16",
+  "title": "Implement role-based access",
+  "url": "https://example.com/jira/INS-J9",
+  "excerpt": "Done. Sprint 21. Role-based access implemented."
+ },
+ {
+  "id": "INS-J10",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-02-07",
+  "title": "Implement saved views",
+  "url": "https://example.com/jira/INS-J10",
+  "excerpt": "Done. Sprint 18. Saved views implemented. Latency fell from 828 ms to 40 ms."
+ },
+ {
+  "id": "INS-PR11",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-05",
+  "title": "Add tests for churn view",
+  "url": "https://example.com/github/INS-PR11",
+  "excerpt": "Merged. Added 52 tests for churn view."
+ },
+ {
+  "id": "INS-PR12",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-02-25",
+  "title": "Add tests for cohort query",
+  "url": "https://example.com/github/INS-PR12",
+  "excerpt": "Merged. Added 41 tests for cohort query. Reviewed by two engineers."
+ },
+ {
+  "id": "INS-PR13",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-06-21",
+  "title": "Add tests for region filter",
+  "url": "https://example.com/github/INS-PR13",
+  "excerpt": "Merged. Added 13 tests for region filter."
+ },
+ {
+  "id": "INS-PR14",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-06-17",
+  "title": "Add tests for export to CSV",
+  "url": "https://example.com/github/INS-PR14",
+  "excerpt": "Merged. Added 31 tests for export to CSV. Reviewed by two engineers."
+ },
+ {
+  "id": "INS-PR15",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-04-12",
+  "title": "Add tests for alert rules",
+  "url": "https://example.com/github/INS-PR15",
+  "excerpt": "Merged. Added 57 tests for alert rules."
+ },
+ {
+  "id": "INS-PR16",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-05-18",
+  "title": "Add tests for retention chart",
+  "url": "https://example.com/github/INS-PR16",
+  "excerpt": "Merged. Added 42 tests for retention chart. Reviewed by two engineers."
+ },
+ {
+  "id": "INS-PR17",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-21",
+  "title": "Add tests for segment builder",
+  "url": "https://example.com/github/INS-PR17",
+  "excerpt": "Merged. Added 22 tests for segment builder."
+ },
+ {
+  "id": "INS-D18",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-05-26",
+  "title": "Design note: churn view",
+  "url": "https://example.com/sharepoint/INS-D18",
+  "excerpt": "Design note written by Priya for the churn view work. 6 pages."
+ },
+ {
+  "id": "INS-D19",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-08-24",
+  "title": "Design note: cohort query",
+  "url": "https://example.com/sharepoint/INS-D19",
+  "excerpt": "Design note written by Priya for the cohort query work. 6 pages."
+ },
+ {
+  "id": "INS-T20",
+  "source_type": "github",
+  "owner": "Rahul",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-05-17",
+  "title": "Add dashboard for region filter",
+  "url": "https://example.com/github/INS-T20",
+  "excerpt": "Merged. Built by Rahul and shared with the team."
+ },
+ {
+  "id": "INS-T21",
+  "source_type": "jira",
+  "owner": "Karthik",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-24",
+  "title": "Tune export to CSV",
+  "url": "https://example.com/jira/INS-T21",
+  "excerpt": "Done. Assignee: Karthik. 36 alerts reduced."
+ },
+ {
+  "id": "INS-T22",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-02-01",
+  "title": "Investigate intermittent failure in alert rules",
+  "url": "https://example.com/jira/INS-T22",
+  "excerpt": "Open. Root cause not identified."
+ },
+ {
+  "id": "INS-T23",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-06-16",
+  "title": "Fix typo in README",
+  "url": "https://example.com/jira/INS-T23",
+  "excerpt": "Done. Fixed a typo."
+ },
+ {
+  "id": "INS-T24",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-05-23",
+  "title": "Project retro",
+  "url": "https://example.com/sharepoint/INS-T24",
+  "excerpt": "Team retro notes. The team delivered the work in 5 sprints."
+ },
+ {
+  "id": "INS-T25",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Customer Insights Dashboard",
+  "date": "2026-07-15",
+  "title": "Demo notes",
+  "url": "https://example.com/sharepoint/INS-T25",
+  "excerpt": "Demo notes mention roughly 60 tests and one open defect."
+ },
+ {
+  "id": "FRD-J1",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-03-08",
+  "title": "Implement velocity rule",
+  "url": "https://example.com/jira/FRD-J1",
+  "excerpt": "Done. Sprint 15. Velocity rule implemented. Latency fell from 860 ms to 64 ms."
+ },
+ {
+  "id": "FRD-J2",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-05-11",
+  "title": "Implement geo mismatch rule",
+  "url": "https://example.com/jira/FRD-J2",
+  "excerpt": "Done. Sprint 17. Geo mismatch rule implemented."
+ },
+ {
+  "id": "FRD-J3",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-02-16",
+  "title": "Implement device fingerprint check",
+  "url": "https://example.com/jira/FRD-J3",
+  "excerpt": "Done. Sprint 19. Device fingerprint check implemented."
+ },
+ {
+  "id": "FRD-J4",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-03-27",
+  "title": "Implement rule editor",
+  "url": "https://example.com/jira/FRD-J4",
+  "excerpt": "Done. Sprint 22. Rule editor implemented. Latency fell from 788 ms to 64 ms."
+ },
+ {
+  "id": "FRD-J5",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-08-26",
+  "title": "Implement backtest harness",
+  "url": "https://example.com/jira/FRD-J5",
+  "excerpt": "Done. Sprint 24. Backtest harness implemented."
+ },
+ {
+  "id": "FRD-J6",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-04-14",
+  "title": "Implement alert queue",
+  "url": "https://example.com/jira/FRD-J6",
+  "excerpt": "Done. Sprint 17. Alert queue implemented."
+ },
+ {
+  "id": "FRD-J7",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-08-15",
+  "title": "Implement case notes",
+  "url": "https://example.com/jira/FRD-J7",
+  "excerpt": "Done. Sprint 11. Case notes implemented. Latency fell from 771 ms to 62 ms."
+ },
+ {
+  "id": "FRD-J8",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-04-06",
+  "title": "Implement allow-list",
+  "url": "https://example.com/jira/FRD-J8",
+  "excerpt": "Done. Sprint 21. Allow-list implemented."
+ },
+ {
+  "id": "FRD-J9",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-09-26",
+  "title": "Implement score thresholds",
+  "url": "https://example.com/jira/FRD-J9",
+  "excerpt": "Done. Sprint 12. Score thresholds implemented."
+ },
+ {
+  "id": "FRD-J10",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-09-22",
+  "title": "Implement audit trail",
+  "url": "https://example.com/jira/FRD-J10",
+  "excerpt": "Done. Sprint 19. Audit trail implemented. Latency fell from 791 ms to 38 ms."
+ },
+ {
+  "id": "FRD-PR11",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-07-05",
+  "title": "Add tests for velocity rule",
+  "url": "https://example.com/github/FRD-PR11",
+  "excerpt": "Merged. Added 43 tests for velocity rule."
+ },
+ {
+  "id": "FRD-PR12",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-04-01",
+  "title": "Add tests for geo mismatch rule",
+  "url": "https://example.com/github/FRD-PR12",
+  "excerpt": "Merged. Added 8 tests for geo mismatch rule. Reviewed by two engineers."
+ },
+ {
+  "id": "FRD-PR13",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-03-17",
+  "title": "Add tests for device fingerprint check",
+  "url": "https://example.com/github/FRD-PR13",
+  "excerpt": "Merged. Added 55 tests for device fingerprint check."
+ },
+ {
+  "id": "FRD-PR14",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-04-14",
+  "title": "Add tests for rule editor",
+  "url": "https://example.com/github/FRD-PR14",
+  "excerpt": "Merged. Added 20 tests for rule editor. Reviewed by two engineers."
+ },
+ {
+  "id": "FRD-PR15",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-05-01",
+  "title": "Add tests for backtest harness",
+  "url": "https://example.com/github/FRD-PR15",
+  "excerpt": "Merged. Added 24 tests for backtest harness."
+ },
+ {
+  "id": "FRD-PR16",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-05-10",
+  "title": "Add tests for alert queue",
+  "url": "https://example.com/github/FRD-PR16",
+  "excerpt": "Merged. Added 40 tests for alert queue. Reviewed by two engineers."
+ },
+ {
+  "id": "FRD-PR17",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-05-25",
+  "title": "Add tests for case notes",
+  "url": "https://example.com/github/FRD-PR17",
+  "excerpt": "Merged. Added 45 tests for case notes."
+ },
+ {
+  "id": "FRD-D18",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-07-09",
+  "title": "Design note: velocity rule",
+  "url": "https://example.com/sharepoint/FRD-D18",
+  "excerpt": "Design note written by Priya for the velocity rule work. 11 pages."
+ },
+ {
+  "id": "FRD-D19",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-08-27",
+  "title": "Design note: geo mismatch rule",
+  "url": "https://example.com/sharepoint/FRD-D19",
+  "excerpt": "Design note written by Priya for the geo mismatch rule work. 5 pages."
+ },
+ {
+  "id": "FRD-T20",
+  "source_type": "github",
+  "owner": "Rahul",
+  "project": "Fraud Rules Engine",
+  "date": "2026-02-24",
+  "title": "Add dashboard for device fingerprint check",
+  "url": "https://example.com/github/FRD-T20",
+  "excerpt": "Merged. Built by Rahul and shared with the team."
+ },
+ {
+  "id": "FRD-T21",
+  "source_type": "jira",
+  "owner": "Karthik",
+  "project": "Fraud Rules Engine",
+  "date": "2026-09-22",
+  "title": "Tune rule editor",
+  "url": "https://example.com/jira/FRD-T21",
+  "excerpt": "Done. Assignee: Karthik. 27 alerts reduced."
+ },
+ {
+  "id": "FRD-T22",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-08-27",
+  "title": "Investigate intermittent failure in backtest harness",
+  "url": "https://example.com/jira/FRD-T22",
+  "excerpt": "Open. Root cause not identified."
+ },
+ {
+  "id": "FRD-T23",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Fraud Rules Engine",
+  "date": "2026-04-18",
+  "title": "Fix typo in README",
+  "url": "https://example.com/jira/FRD-T23",
+  "excerpt": "Done. Fixed a typo."
+ },
+ {
+  "id": "FRD-T24",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Fraud Rules Engine",
+  "date": "2026-02-28",
+  "title": "Project retro",
+  "url": "https://example.com/sharepoint/FRD-T24",
+  "excerpt": "Team retro notes. The team delivered the work in 4 sprints."
+ },
+ {
+  "id": "FRD-T25",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Fraud Rules Engine",
+  "date": "2026-09-25",
+  "title": "Demo notes",
+  "url": "https://example.com/sharepoint/FRD-T25",
+  "excerpt": "Demo notes mention roughly 60 tests and one open defect."
+ },
+ {
+  "id": "DWH-J1",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-04-06",
+  "title": "Implement schema mapping",
+  "url": "https://example.com/jira/DWH-J1",
+  "excerpt": "Done. Sprint 10. Schema mapping implemented. Latency fell from 307 ms to 97 ms."
+ },
+ {
+  "id": "DWH-J2",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-03-18",
+  "title": "Implement backfill job",
+  "url": "https://example.com/jira/DWH-J2",
+  "excerpt": "Done. Sprint 19. Backfill job implemented."
+ },
+ {
+  "id": "DWH-J3",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-09-26",
+  "title": "Implement partitioning",
+  "url": "https://example.com/jira/DWH-J3",
+  "excerpt": "Done. Sprint 20. Partitioning implemented."
+ },
+ {
+  "id": "DWH-J4",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-05-07",
+  "title": "Implement access policies",
+  "url": "https://example.com/jira/DWH-J4",
+  "excerpt": "Done. Sprint 10. Access policies implemented. Latency fell from 228 ms to 91 ms."
+ },
+ {
+  "id": "DWH-J5",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-03-17",
+  "title": "Implement cost report",
+  "url": "https://example.com/jira/DWH-J5",
+  "excerpt": "Done. Sprint 22. Cost report implemented."
+ },
+ {
+  "id": "DWH-J6",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-03-15",
+  "title": "Implement lineage tags",
+  "url": "https://example.com/jira/DWH-J6",
+  "excerpt": "Done. Sprint 10. Lineage tags implemented."
+ },
+ {
+  "id": "DWH-J7",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-05-23",
+  "title": "Implement nightly load",
+  "url": "https://example.com/jira/DWH-J7",
+  "excerpt": "Done. Sprint 18. Nightly load implemented. Latency fell from 453 ms to 98 ms."
+ },
+ {
+  "id": "DWH-J8",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-09-17",
+  "title": "Implement data quality checks",
+  "url": "https://example.com/jira/DWH-J8",
+  "excerpt": "Done. Sprint 18. Data quality checks implemented."
+ },
+ {
+  "id": "DWH-J9",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-06-18",
+  "title": "Implement archive policy",
+  "url": "https://example.com/jira/DWH-J9",
+  "excerpt": "Done. Sprint 18. Archive policy implemented."
+ },
+ {
+  "id": "DWH-J10",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-08-04",
+  "title": "Implement query templates",
+  "url": "https://example.com/jira/DWH-J10",
+  "excerpt": "Done. Sprint 12. Query templates implemented. Latency fell from 327 ms to 77 ms."
+ },
+ {
+  "id": "DWH-PR11",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-08-15",
+  "title": "Add tests for schema mapping",
+  "url": "https://example.com/github/DWH-PR11",
+  "excerpt": "Merged. Added 28 tests for schema mapping."
+ },
+ {
+  "id": "DWH-PR12",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-03-22",
+  "title": "Add tests for backfill job",
+  "url": "https://example.com/github/DWH-PR12",
+  "excerpt": "Merged. Added 23 tests for backfill job. Reviewed by two engineers."
+ },
+ {
+  "id": "DWH-PR13",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-08-03",
+  "title": "Add tests for partitioning",
+  "url": "https://example.com/github/DWH-PR13",
+  "excerpt": "Merged. Added 21 tests for partitioning."
+ },
+ {
+  "id": "DWH-PR14",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-06-26",
+  "title": "Add tests for access policies",
+  "url": "https://example.com/github/DWH-PR14",
+  "excerpt": "Merged. Added 15 tests for access policies. Reviewed by two engineers."
+ },
+ {
+  "id": "DWH-PR15",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-04-23",
+  "title": "Add tests for cost report",
+  "url": "https://example.com/github/DWH-PR15",
+  "excerpt": "Merged. Added 49 tests for cost report."
+ },
+ {
+  "id": "DWH-PR16",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-07-05",
+  "title": "Add tests for lineage tags",
+  "url": "https://example.com/github/DWH-PR16",
+  "excerpt": "Merged. Added 24 tests for lineage tags. Reviewed by two engineers."
+ },
+ {
+  "id": "DWH-PR17",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-04-15",
+  "title": "Add tests for nightly load",
+  "url": "https://example.com/github/DWH-PR17",
+  "excerpt": "Merged. Added 22 tests for nightly load."
+ },
+ {
+  "id": "DWH-D18",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-03-13",
+  "title": "Design note: schema mapping",
+  "url": "https://example.com/sharepoint/DWH-D18",
+  "excerpt": "Design note written by Priya for the schema mapping work. 10 pages."
+ },
+ {
+  "id": "DWH-D19",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-04-22",
+  "title": "Design note: backfill job",
+  "url": "https://example.com/sharepoint/DWH-D19",
+  "excerpt": "Design note written by Priya for the backfill job work. 6 pages."
+ },
+ {
+  "id": "DWH-T20",
+  "source_type": "github",
+  "owner": "Rahul",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-04-23",
+  "title": "Add dashboard for partitioning",
+  "url": "https://example.com/github/DWH-T20",
+  "excerpt": "Merged. Built by Rahul and shared with the team."
+ },
+ {
+  "id": "DWH-T21",
+  "source_type": "jira",
+  "owner": "Karthik",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-08-11",
+  "title": "Tune access policies",
+  "url": "https://example.com/jira/DWH-T21",
+  "excerpt": "Done. Assignee: Karthik. 32 alerts reduced."
+ },
+ {
+  "id": "DWH-T22",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-08-07",
+  "title": "Investigate intermittent failure in cost report",
+  "url": "https://example.com/jira/DWH-T22",
+  "excerpt": "Open. Root cause not identified."
+ },
+ {
+  "id": "DWH-T23",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-07-11",
+  "title": "Fix typo in README",
+  "url": "https://example.com/jira/DWH-T23",
+  "excerpt": "Done. Fixed a typo."
+ },
+ {
+  "id": "DWH-T24",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-07-01",
+  "title": "Project retro",
+  "url": "https://example.com/sharepoint/DWH-T24",
+  "excerpt": "Team retro notes. The team delivered the work in 3 sprints."
+ },
+ {
+  "id": "DWH-T25",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Data Warehouse Cutover",
+  "date": "2026-07-18",
+  "title": "Demo notes",
+  "url": "https://example.com/sharepoint/DWH-T25",
+  "excerpt": "Demo notes mention roughly 60 tests and one open defect."
+ },
+ {
+  "id": "LRN-J1",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-02-13",
+  "title": "Implement API testing session",
+  "url": "https://example.com/jira/LRN-J1",
+  "excerpt": "Done. Sprint 21. Api testing session implemented. Latency fell from 589 ms to 76 ms."
+ },
+ {
+  "id": "LRN-J2",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-06-17",
+  "title": "Implement onboarding guide",
+  "url": "https://example.com/jira/LRN-J2",
+  "excerpt": "Done. Sprint 19. Onboarding guide implemented."
+ },
+ {
+  "id": "LRN-J3",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-05-04",
+  "title": "Implement code review clinic",
+  "url": "https://example.com/jira/LRN-J3",
+  "excerpt": "Done. Sprint 24. Code review clinic implemented."
+ },
+ {
+  "id": "LRN-J4",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-02-25",
+  "title": "Implement certification study group",
+  "url": "https://example.com/jira/LRN-J4",
+  "excerpt": "Done. Sprint 14. Certification study group implemented. Latency fell from 206 ms to 53 ms."
+ },
+ {
+  "id": "LRN-J5",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-04-27",
+  "title": "Implement incident review",
+  "url": "https://example.com/jira/LRN-J5",
+  "excerpt": "Done. Sprint 22. Incident review implemented."
+ },
+ {
+  "id": "LRN-J6",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-06-13",
+  "title": "Implement pairing rota",
+  "url": "https://example.com/jira/LRN-J6",
+  "excerpt": "Done. Sprint 23. Pairing rota implemented."
+ },
+ {
+  "id": "LRN-J7",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-09-23",
+  "title": "Implement interview panel",
+  "url": "https://example.com/jira/LRN-J7",
+  "excerpt": "Done. Sprint 24. Interview panel implemented. Latency fell from 272 ms to 88 ms."
+ },
+ {
+  "id": "LRN-J8",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-02-26",
+  "title": "Implement lunch-and-learn",
+  "url": "https://example.com/jira/LRN-J8",
+  "excerpt": "Done. Sprint 14. Lunch-and-learn implemented."
+ },
+ {
+  "id": "LRN-J9",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-03-09",
+  "title": "Implement docs sprint",
+  "url": "https://example.com/jira/LRN-J9",
+  "excerpt": "Done. Sprint 16. Docs sprint implemented."
+ },
+ {
+  "id": "LRN-J10",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-06-03",
+  "title": "Implement new joiner buddy",
+  "url": "https://example.com/jira/LRN-J10",
+  "excerpt": "Done. Sprint 11. New joiner buddy implemented. Latency fell from 137 ms to 101 ms."
+ },
+ {
+  "id": "LRN-PR11",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-05-03",
+  "title": "Add tests for API testing session",
+  "url": "https://example.com/github/LRN-PR11",
+  "excerpt": "Merged. Added 24 tests for API testing session."
+ },
+ {
+  "id": "LRN-PR12",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-03-15",
+  "title": "Add tests for onboarding guide",
+  "url": "https://example.com/github/LRN-PR12",
+  "excerpt": "Merged. Added 8 tests for onboarding guide. Reviewed by two engineers."
+ },
+ {
+  "id": "LRN-PR13",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-07-18",
+  "title": "Add tests for code review clinic",
+  "url": "https://example.com/github/LRN-PR13",
+  "excerpt": "Merged. Added 34 tests for code review clinic."
+ },
+ {
+  "id": "LRN-PR14",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-06-20",
+  "title": "Add tests for certification study group",
+  "url": "https://example.com/github/LRN-PR14",
+  "excerpt": "Merged. Added 16 tests for certification study group. Reviewed by two engineers."
+ },
+ {
+  "id": "LRN-PR15",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-02-17",
+  "title": "Add tests for incident review",
+  "url": "https://example.com/github/LRN-PR15",
+  "excerpt": "Merged. Added 53 tests for incident review."
+ },
+ {
+  "id": "LRN-PR16",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-05-04",
+  "title": "Add tests for pairing rota",
+  "url": "https://example.com/github/LRN-PR16",
+  "excerpt": "Merged. Added 18 tests for pairing rota. Reviewed by two engineers."
+ },
+ {
+  "id": "LRN-PR17",
+  "source_type": "github",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-06-02",
+  "title": "Add tests for interview panel",
+  "url": "https://example.com/github/LRN-PR17",
+  "excerpt": "Merged. Added 19 tests for interview panel."
+ },
+ {
+  "id": "LRN-D18",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-05-10",
+  "title": "Design note: API testing session",
+  "url": "https://example.com/sharepoint/LRN-D18",
+  "excerpt": "Design note written by Priya for the API testing session work. 7 pages."
+ },
+ {
+  "id": "LRN-D19",
+  "source_type": "sharepoint",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-05-10",
+  "title": "Design note: onboarding guide",
+  "url": "https://example.com/sharepoint/LRN-D19",
+  "excerpt": "Design note written by Priya for the onboarding guide work. 10 pages."
+ },
+ {
+  "id": "LRN-T20",
+  "source_type": "github",
+  "owner": "Rahul",
+  "project": "Learning and Mentoring",
+  "date": "2026-04-09",
+  "title": "Add dashboard for code review clinic",
+  "url": "https://example.com/github/LRN-T20",
+  "excerpt": "Merged. Built by Rahul and shared with the team."
+ },
+ {
+  "id": "LRN-T21",
+  "source_type": "jira",
+  "owner": "Karthik",
+  "project": "Learning and Mentoring",
+  "date": "2026-02-09",
+  "title": "Tune certification study group",
+  "url": "https://example.com/jira/LRN-T21",
+  "excerpt": "Done. Assignee: Karthik. 27 alerts reduced."
+ },
+ {
+  "id": "LRN-T22",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-02-01",
+  "title": "Investigate intermittent failure in incident review",
+  "url": "https://example.com/jira/LRN-T22",
+  "excerpt": "Open. Root cause not identified."
+ },
+ {
+  "id": "LRN-T23",
+  "source_type": "jira",
+  "owner": "Priya",
+  "project": "Learning and Mentoring",
+  "date": "2026-02-24",
+  "title": "Fix typo in README",
+  "url": "https://example.com/jira/LRN-T23",
+  "excerpt": "Done. Fixed a typo."
+ },
+ {
+  "id": "LRN-T24",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Learning and Mentoring",
+  "date": "2026-09-08",
+  "title": "Project retro",
+  "url": "https://example.com/sharepoint/LRN-T24",
+  "excerpt": "Team retro notes. The team delivered the work in 4 sprints."
+ },
+ {
+  "id": "LRN-T25",
+  "source_type": "sharepoint",
+  "owner": "Team",
+  "project": "Learning and Mentoring",
+  "date": "2026-09-04",
+  "title": "Demo notes",
+  "url": "https://example.com/sharepoint/LRN-T25",
+  "excerpt": "Demo notes mention roughly 60 tests and one open defect."
+ }
+]

@@ -1,113 +1,58 @@
-# Evidence Assistant
+# CaseLedger
 
-An employee-controlled prototype for turning work artifacts into reviewable contribution claims. Claims include links to their source artifacts, can be approved or rejected by the employee, and can be exported only after approval. The app does not make promotion decisions or calculate a promotion-readiness score.
+Turns the scattered evidence behind a promotion case (tickets, pull requests, documents, emails, training records) into short, cited entries for the yearly form. Built for the Google Cloud AI Builder Cup, theme: Future of Work and Enterprise Productivity.
 
-## What it does
+**Live app:** https://case-builder-904477666788.us-central1.run.app/| **Video:** 
 
-- Loads synthetic Jira, GitHub, and SharePoint-style artifacts from `backend/data/demo_data.json`.
-- Uses Gemini to draft contribution claims when configured; otherwise, it runs a clearly labeled fallback mode that groups artifact titles by project. The fallback is not AI extraction.
-- Shows each claim with its cited artifacts and a numeric-evidence check.
-- Lets the employee add impact details and approve or reject claims.
-- Exports approved, supported claims as CSV.
-- Includes an upload API for text, DOCX, and PPTX files.
+> Demo data and mocked connectors. All 28 records (and a 150-record scale set) are synthetic. The live page opens with a saved build; pressing Build calls Gemini live and is subject to API limits.
 
-The Jira, GitHub, and SharePoint records are seeded examples, not live integrations. The current browser UI does not expose file upload controls; uploads are available through the API.
+## The problem
+Every year, employees rebuild their promotion case from memory across Jira, GitHub, SharePoint and slides. In the author's case this took 4 to 5 hours (one person's estimate), and the coach presenting it cannot easily verify it.
 
-## Requirements
+## How it works
+1. **Collect:** records from each source are normalised into one format (id, source, owner, project, date, title, excerpt). Word and PowerPoint files can be uploaded.
+2. **Draft:** Gemini drafts form entries one project at a time. It is told to credit only the owner's work and never to invent numbers.
+3. **Verify:** a rule check confirms every figure in an entry appears in a cited source (dates are matched too). A second Gemini pass checks wording, causal claims, ownership and scope. Entries that fail are held back.
+4. **Review and export:** missing results are asked for and marked self-reported. A person approves or rejects each entry, and approved entries export to Excel with evidence links.
 
-- Python 3.11 or newer
-- A Gemini API key for live extraction, or Google Cloud Application Default Credentials and a Google Cloud project if using Vertex AI
+## Architecture
+FastAPI service on **Cloud Run** (`backend/main.py`, `pipeline.py`, `validator.py`, `export_xlsx.py`) -> **Gemini** (drafting and fact-check, with retry and rate-limit backoff) -> **Firestore** (one document, `cases/demo`, holds the case so it survives restarts). Static interface in `backend/static`, served by Cloud Run [and Firebase Hosting, if deployed].
 
-## Run locally on Windows
-
-Open PowerShell in the repository root, then run:
-
-```powershell
+## Run locally
+```
 cd backend
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python -m venv ../.venv && ../.venv/Scripts/activate   # Windows
+pip install -r requirements.txt
+# create backend/.env with: GEMINI_API_KEY=...  GEMINI_MODEL=...   (never commit it)
+python test_validator.py && python test_pipeline.py
+uvicorn main:app --port 8080
+```
+Optional variables: `DATA_FILE=data/demo_data_large.json` (150-record set), `USE_FIRESTORE=1`, `EMPLOYEE=Priya`.
+
+## Deploy
+```
+gcloud run deploy case-builder --source . --region us-central1 --allow-unauthenticated \
+  --min-instances 1 --max-instances 1 --timeout 300
+gcloud run services update case-builder --region us-central1 \
+  --update-env-vars "GEMINI_API_KEY=...,GEMINI_MODEL=...,USE_FIRESTORE=1"
 ```
 
-If PowerShell blocks environment activation, allow it for the current terminal only and activate again:
+## Evaluation
+`python score.py <state file>` counts planted traps (other people's work, open tickets, typo fixes, team notes, conflicting figures) that appear in entries.
 
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venv\Scripts\Activate.ps1
-```
+| Run | Sources | Entries | Held back | Trap sources cited | Legitimate sources missed |
+|---|---|---|---|---|---|
+| Small set, local run 2 | 28 | 13 | 2 | 0 of 7 | 3 of 21 |
+| Small set, local run 3 | 31 | 16 | 0 | 0 of 7 | 1 of 24 |
+| Small set, before deploy | 28 | 16 | 2 | 0 of 7 | 0 of 21 |
+| 150 records, per-project extraction | 151 | 61 | 3 | 0 of 36 | 0 of 115 |
 
-Start the development server with automatic reload:
+## Limits
+- Connectors are mocked and the data is synthetic.
+- The AI fact-check varies between runs and produced false positives (for example, an entry flagged although its source title supported it).
+- Entry counts vary run to run (36 and 61 on the same 150 records), and most entries at that scale are one line each.
+- Documents written by the employee are weaker evidence than system records.
+- A single shared Firestore document is used; there is no sign-in.
 
-```powershell
-uvicorn main:app --host 127.0.0.1 --port 8080 --reload
-```
-
-Open <http://127.0.0.1:8080>. FastAPI's interactive API documentation is at <http://127.0.0.1:8080/docs>.
-
-## Configure Gemini (optional)
-
-Create `backend/.env` and add your key and model:
-
-```dotenv
-GEMINI_API_KEY=replace-with-your-key
-GEMINI_MODEL=gemini-2.5-flash
-```
-
-The app loads this file on startup. Keep `.env` private; do not commit API keys or other credentials. Without `GEMINI_API_KEY` or `GOOGLE_CLOUD_PROJECT`, the app uses fallback mode. For Vertex AI instead of an API key, configure Application Default Credentials and set:
-
-```dotenv
-GOOGLE_CLOUD_PROJECT=your-google-cloud-project-id
-GOOGLE_CLOUD_LOCATION=us-central1
-GEMINI_MODEL=gemini-2.5-flash
-```
-
-For local Vertex AI authentication, install and configure the Google Cloud CLI, then run `gcloud auth application-default login`. Google Cloud usage may require an active billing account.
-
-## Use the app
-
-1. Click **Build my case** to generate claims from the seeded artifacts.
-2. Inspect each claim and expand **Sources** to check the cited artifacts.
-3. Add an impact answer when prompted, then approve or reject each claim.
-4. Click **Export approved entries** to download a CSV. Only approved claims that are not marked unsupported are included.
-
-The validator checks whether figures in a claim appear in its cited artifacts or in the employee's answer. `verified` means the figures match cited sources; `self_reported` means a figure came from the employee's answer; `unchecked` means there are no figures to compare and the wording itself is not verified; `unsupported` means the claim lacks a valid citation or contains figures not found in the evidence or employee answer. These labels are checks, not a judgment of performance.
-
-## API endpoints
-
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `GET` | `/api/state` | Read current artifacts and claims |
-| `POST` | `/api/extract` | Generate claims from the current artifacts |
-| `POST` | `/api/claims/{cid}/answer` | Submit an employee answer as JSON, for example `{"text":"Reduced processing time by 20%"}` |
-| `POST` | `/api/claims/{cid}/decision` | Set a decision as JSON: `{"decision":"approve"}` or `{"decision":"reject"}` |
-| `POST` | `/api/upload` | Upload a file as multipart form data; optional `project` field |
-| `GET` | `/api/export.csv` | Download approved, non-unsupported claims as CSV |
-
-## State and privacy notes
-
-- By default, artifacts and claim state live in process memory. Restarting the server resets claims, decisions, and uploads to the seeded demo data.
-- Setting `USE_FIRESTORE=1` enables writes of the current case state to a Firestore document. The prototype does not restore that saved state on startup.
-- Use synthetic or otherwise authorized data only. The local prototype has no sign-in or access-control layer; do not expose it publicly with confidential work artifacts.
-- Imported artifact text is sent to Gemini when live extraction is enabled. Do not submit confidential data unless you have authorization and have reviewed the applicable service and organization policies.
-
-## Run the validator checks
-
-From the `backend` directory with the virtual environment active:
-
-```powershell
-python test_validator.py
-```
-
-## Docker / Cloud Run
-
-The root `Dockerfile` packages the backend and serves the UI and API on the port provided by Cloud Run. From the repository root, build and run locally with Docker:
-
-```powershell
-docker build -t evidence-assistant .
-docker run --rm -p 8080:8080 -e PORT=8080 evidence-assistant
-```
-
-To deploy to Cloud Run, configure an active Google Cloud billing account, enable the required APIs, and deploy the service from the repository root. Set `GEMINI_API_KEY` as a Secret Manager-backed environment variable rather than placing the key in source control or the Docker image. Cloud Run usage and Gemini requests can incur charges.
-
-`firebase.json` contains an optional Firebase Hosting rewrite to a Cloud Run service named `case-builder` in `us-central1`; deploy a matching Cloud Run service before using that rewrite.
+## Next
+Rubric mapping (the same evidence mapped to any firm's criteria), real connectors with employee consent, retrieval for large histories, and an edit button.
